@@ -15,11 +15,7 @@ public class DBConnector {
 		String USER = "btv";
 		String PASS = "btv";
 		Connection conn;
-		
-		
-		
-		try 
-		{
+		try {
 			conn = DriverManager.getConnection(URL, USER, PASS);
 			
 			
