@@ -25,7 +25,7 @@ public class DBConnector {
 			
 			PreparedStatement pstmt = null;
 			
-			String SQL = "insert into student values(1321164,'Joe','Dow')";
+			String SQL = "insert into student values(1321163,'John','Smith')";
 			Statement stmt = null;
 			
 			stmt = conn.createStatement( );
