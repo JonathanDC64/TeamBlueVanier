@@ -12,6 +12,6 @@ If you want to make changes or add files to the project:
 1. modify or add a file in the TeamBlueVanier folder
 2. go in git and click on the arrow next to "Uncommitted changes"
 3. Enter a summary and description of the changes you made and click "commit to.."
-4. Click on the sync button on the top left
+4. Click on the sync button on the top right
 5. ???
 6. DONE!!
