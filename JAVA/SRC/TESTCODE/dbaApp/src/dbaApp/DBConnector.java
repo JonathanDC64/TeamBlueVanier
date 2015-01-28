@@ -11,30 +11,59 @@ import javax.swing.JOptionPane;
 // for BigDecimal and BigInteger support
 public class DBConnector {
 
-	private String URL, USER, PASS;
-	private Connection conn;
+	private static String URL, USER, PASS;
+	private static Connection conn;
 	
 	public DBConnector()
 	{
 		try {
 			   Class.forName("oracle.jdbc.driver.OracleDriver");
-				URL = "jdbc:oracle:thin:@localhost:1521:BlueTeam";
-				USER = "btv";
-				PASS = "btv";
-				conn = DriverManager.getConnection(URL, USER, PASS);
+				
+				setLoginInfo("jdbc:oracle:thin:@localhost:1521:BlueTeam","btv","btv");
 			}
 			catch(ClassNotFoundException ex) {
 			   System.out.println("Error: unable to load driver class!");
 			   System.exit(1);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			} 
 	}
 	
-	public String[] getColumnNames()
+	public void setLoginInfo(String URL, String USER, String PASS)
 	{
+		this.URL = URL;
+		this.USER = USER;
+		this.PASS = PASS;
+	}
+	
+	public void connect()
+	{
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASS);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String[] getColumnNames(String tableName)
+	{
+		try {
+			Statement stmt = null;
+			stmt = conn.createStatement( );
+			ResultSet rs;
+						
+			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName + "'");
+	
+			ArrayList<String> text = new ArrayList<String>();
+			while(rs.next())
+			{
+		         text.add(rs.getString(0));
+		    }
+			return (String[])text.toArray();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return null;
 		
 	}

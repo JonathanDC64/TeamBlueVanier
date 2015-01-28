@@ -39,49 +39,54 @@ public class DataInsertion extends JFrame {
 	 * Create the frame.
 	 */
 	public DataInsertion() {
+		setResizable(false);
 		setTitle("Data Insertion");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 350);
+		setBounds(100, 100, 410, 128);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		StudentIdField = new JTextField();
-		StudentIdField.setBounds(90, 140, 120, 20);
+		StudentIdField.setBounds(10, 25, 120, 20);
 		contentPane.add(StudentIdField);
 		StudentIdField.setColumns(10);
 		
 		fnameField = new JTextField();
 		fnameField.setColumns(10);
-		fnameField.setBounds(220, 140, 120, 20);
+		fnameField.setBounds(140, 25, 120, 20);
 		contentPane.add(fnameField);
 		
 		lnameField = new JTextField();
 		lnameField.setColumns(10);
-		lnameField.setBounds(350, 140, 120, 20);
+		lnameField.setBounds(270, 25, 120, 20);
 		contentPane.add(lnameField);
 		
 		JLabel lblStudentId = new JLabel("Student Id");
-		lblStudentId.setBounds(90, 125, 61, 14);
+		lblStudentId.setBounds(10, 11, 61, 14);
 		contentPane.add(lblStudentId);
 		
 		JLabel lblFirstName = new JLabel("First Name");
-		lblFirstName.setBounds(220, 125, 61, 14);
+		lblFirstName.setBounds(140, 11, 61, 14);
 		contentPane.add(lblFirstName);
 		
 		JLabel lblLastName = new JLabel("Last Name");
-		lblLastName.setBounds(350, 125, 61, 14);
+		lblLastName.setBounds(270, 11, 61, 14);
 		contentPane.add(lblLastName);
 		
 		JButton btnInsert = new JButton("Insert");
+		
+		final DBConnector db = new DBConnector();
+		db.connect();
+		
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String [] values = {StudentIdField.getText(), fnameField.getText(), lnameField.getText()};
-				DBConnector.insert("student",values);
+				db.insert("student",values);
 			}
 		});
-		btnInsert.setBounds(234, 182, 89, 23);
+		btnInsert.setBounds(140, 56, 89, 23);
 		contentPane.add(btnInsert);
 	}
 }

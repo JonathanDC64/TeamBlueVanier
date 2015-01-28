@@ -1,0 +1,126 @@
+package dbaApp;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTabbedPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public class TableDisplay extends JFrame {
+
+	private JPanel contentPane;
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+
+	final private JScrollPane scrollPane;
+	final DBConnector db = new DBConnector();
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TableDisplay frame = new TableDisplay();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public TableDisplay() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		
+		scrollPane = new JScrollPane();
+		tabbedPane.addTab("Data View", null, scrollPane, null);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("Data Insert", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel lblStudentId = new JLabel("Student ID");
+		lblStudentId.setBounds(10, 8, 86, 14);
+		panel_1.add(lblStudentId);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 25, 86, 20);
+		panel_1.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(106, 25, 86, 20);
+		panel_1.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblFirstName = new JLabel("First Name");
+		lblFirstName.setBounds(106, 8, 86, 14);
+		panel_1.add(lblFirstName);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(202, 25, 86, 20);
+		panel_1.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JLabel lblLastName = new JLabel("Last Name");
+		lblLastName.setBounds(202, 8, 86, 14);
+		panel_1.add(lblLastName);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.SOUTH);
+		
+		JButton btnNewButton = new JButton("Refresh data");
+		
+		db.connect();
+		panel.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		
+	}
+	
+	public void refreshData()
+	{
+		String[][] report = db.getQueryRows();
+
+		String[] names = {"student ID","first name","last name"};
+		table = new JTable(report, names);
+		scrollPane.setViewportView(table);
+		scrollPane.revalidate();
+	}
+	
+}
