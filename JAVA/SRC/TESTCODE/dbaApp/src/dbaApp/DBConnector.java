@@ -6,57 +6,55 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 // for BigDecimal and BigInteger support
 public class DBConnector {
 
-	public DBConnector()
-	{
-		
-		
-		
-		
-		
-	}
+	private String URL, USER, PASS;
+	private Connection conn;
 	
-	public static String[][] report()
+	public DBConnector()
 	{
 		try {
 			   Class.forName("oracle.jdbc.driver.OracleDriver");
+				URL = "jdbc:oracle:thin:@localhost:1521:BlueTeam";
+				USER = "btv";
+				PASS = "btv";
+				conn = DriverManager.getConnection(URL, USER, PASS);
 			}
 			catch(ClassNotFoundException ex) {
 			   System.out.println("Error: unable to load driver class!");
 			   System.exit(1);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		String URL = "jdbc:oracle:thin:@localhost:1521:BlueTeam";
-		String USER = "btv";
-		String PASS = "btv";
-		Connection conn;
+
+	}
+	
+	public String[] getColumnNames()
+	{
+		return null;
 		
-		
-		
+	}
+	
+	public String[][] getQueryRows()
+	{
 		try 
 		{
-			conn = DriverManager.getConnection(URL, USER, PASS);
-			
-			
 			PreparedStatement pstmt = null;
 			
-			//String SQL = "insert into student values(1321164,'Joe','Dow')";
+
 			Statement stmt = null;
 			
 			stmt = conn.createStatement( );
-			//stmt.execute(SQL);
 			ResultSet rs;
+			
+			
 			
 			rs = stmt.executeQuery("select * from student order by studentid");
 			
-			//rs.next();
-			
-			//System.out.println(rs.getString(2));
-			
-			//rs.next();
-			
-			//System.out.println(rs.getString(2));
 			
 			
 			ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
@@ -83,7 +81,7 @@ public class DBConnector {
 				}
 			}
 			
-			conn.close();
+			//conn.close();
 			
 			return fText;
 			
@@ -94,45 +92,30 @@ public class DBConnector {
 		return null;
 	}
 	
-	public static void studentInsert(String id, String fname, String lname)
+	public void insert(String tableName, String[] values)
 	{
-		try {
-			   Class.forName("oracle.jdbc.driver.OracleDriver");
-			}
-			catch(ClassNotFoundException ex) {
-			   System.out.println("Error: unable to load driver class!");
-			   System.exit(1);
-			}
-		String URL = "jdbc:oracle:thin:@localhost:1521:BlueTeam";
-		String USER = "btv";
-		String PASS = "btv";
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(URL, USER, PASS);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		PreparedStatement pstmt = null;
-		
-		//String SQL = "insert into student values(1321164,'Joe','Dow')";
 		Statement stmt = null;
-		
 		try {
 			stmt = conn.createStatement( );
+			String sql = "insert into " + tableName +" values(";
+			for(int i = 0 ; i < values.length ; i++)
+			{
+				if(i == values.length-1)
+				{
+					sql += "'" + values[i] + "'";
+				}
+				else
+				{
+					sql += "'" + values[i] + "',";
+				}
+			}
+			sql += ")";
+			System.out.println(sql);
+			stmt.executeQuery(sql);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//stmt.execute(SQL);
-		ResultSet rs;
-		try {
-			rs = stmt.executeQuery("insert into student values(" + Integer.parseInt(id) + ",'" + fname + "','" + lname + "')");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 	}
 

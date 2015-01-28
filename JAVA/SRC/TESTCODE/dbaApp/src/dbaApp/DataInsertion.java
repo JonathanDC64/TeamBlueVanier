@@ -77,7 +77,8 @@ public class DataInsertion extends JFrame {
 		JButton btnInsert = new JButton("Insert");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DBConnector.studentInsert(StudentIdField.getText(), fnameField.getText(), lnameField.getText());
+				String [] values = {StudentIdField.getText(), fnameField.getText(), lnameField.getText()};
+				DBConnector.insert("student",values);
 			}
 		});
 		btnInsert.setBounds(234, 182, 89, 23);
