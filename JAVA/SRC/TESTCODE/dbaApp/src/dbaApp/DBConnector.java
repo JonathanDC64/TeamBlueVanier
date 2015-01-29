@@ -6,25 +6,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 // for BigDecimal and BigInteger support
 public class DBConnector {
 
-	private static String URL, USER, PASS;
-	private static Connection conn;
+	private String URL, USER, PASS;
+	private Connection conn;
 	
 	public DBConnector()
 	{
 		try {
 			   Class.forName("oracle.jdbc.driver.OracleDriver");
-				
-				setLoginInfo("jdbc:oracle:thin:@localhost:1521:BlueTeam","btv","btv");
+			   setLoginInfo("jdbc:oracle:thin:@localhost:1521:BlueTeam","btv","btv");
+			   //setLoginInfo("jdbc:oracle:thin:@" + HOST + ":1521:" + SID,USER,PASS);
 			}
 			catch(ClassNotFoundException ex) {
-			   System.out.println("Error: unable to load driver class!");
+			   JOptionPane.showMessageDialog(null,"Error: unable to load driver class!");
 			   System.exit(1);
 			} 
+	}
+	
+	public DBConnector(String URL, String USER, String PASS)
+	{
+		setLoginInfo(URL,USER,PASS);
 	}
 	
 	public void setLoginInfo(String URL, String USER, String PASS)
@@ -40,8 +46,30 @@ public class DBConnector {
 			conn = DriverManager.getConnection(URL, USER, PASS);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
+	}
+	
+	public String[] getDatabaseTables()
+	{
+		try {
+			Statement stmt = null;
+			stmt = conn.createStatement( );
+			ResultSet rs;
+			rs = stmt.executeQuery("select table_name from user_tables");
+			ArrayList<String> text = new ArrayList<String>();
+			while(rs.next())
+			{
+		         text.add(rs.getString(1));//1st column
+		    }
+			
+			return text.toArray(new String[text.size()]);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+
+		return null;
 	}
 	
 	public String[] getColumnNames(String tableName)
@@ -51,24 +79,33 @@ public class DBConnector {
 			stmt = conn.createStatement( );
 			ResultSet rs;
 						
-			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName + "'");
+			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName.toUpperCase() + "'");
 	
 			ArrayList<String> text = new ArrayList<String>();
 			while(rs.next())
 			{
-		         text.add(rs.getString(0));
+		         text.add(rs.getString(1));//1st column
 		    }
-			return (String[])text.toArray();
+			
+			String[] values = new String[text.size()];
+			
+			
+			//reverse the values since they are in the wrong order
+			for(int i = values.length; i > 0 ; i--)
+			{
+				values[values.length - i] = text.get(i-1);
+			}
+			
+			return values;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 
 		return null;
-		
 	}
 	
-	public String[][] getQueryRows()
+	public String[][] getQueryRows(String tableName, String orderBy)
 	{
 		try 
 		{
@@ -82,22 +119,25 @@ public class DBConnector {
 			
 			
 			
-			rs = stmt.executeQuery("select * from student order by studentid");
+			rs = stmt.executeQuery("select * from " + tableName + " order by " + orderBy);
 			
 			
 			
 			ArrayList<ArrayList<String>> text = new ArrayList<ArrayList<String>>();
+			
+			String[] columnNames = getColumnNames(tableName);
+			
 			int rows = 0;
 			while(rs.next())
 			{
-		         //Retrieve by column name
-		         String id  = Integer.toString(rs.getInt("studentid"));
-		         String first = rs.getString("fname");
-		         String last = rs.getString("lname");
-		         ArrayList<String> t = new ArrayList<String>();
-		         t.add(id);t.add(first);t.add(last);
-		         text.add(t);
-		         rows++;
+				ArrayList<String> t = new ArrayList<String>();
+				for(int i = 0 ; i < columnNames.length ; i++)
+				{
+					t.add(rs.getString(columnNames[i]));
+				}
+				
+				text.add(t);
+				rows++;
 		    }
 
 			String[][] fText = new String[rows][text.get(0).size()];
@@ -125,7 +165,7 @@ public class DBConnector {
 	{
 		Statement stmt = null;
 		try {
-			stmt = conn.createStatement( );
+			stmt = conn.createStatement();
 			String sql = "insert into " + tableName +" values(";
 			for(int i = 0 ; i < values.length ; i++)
 			{
@@ -145,6 +185,19 @@ public class DBConnector {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	}
+	
+	public void deleteRow(String tableName, String primaryKeyName, String primaryKeyValue)
+	{
+		Statement stmt = null;
+		
+		try {
+			stmt = conn.createStatement();
+			stmt.executeQuery("delete from " + tableName + " where " + primaryKeyName + "='" + primaryKeyValue + "'" );
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
