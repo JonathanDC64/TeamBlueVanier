@@ -1,0 +1,287 @@
+package dbaApp;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JTabbedPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import javax.swing.JList;
+
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.BoxLayout;
+
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+
+import net.miginfocom.swing.MigLayout;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Component;
+
+public class TableDisplay extends JFrame {
+
+	private JPanel contentPane;
+	private JTable dataTable;
+
+	final private JScrollPane scrollPane;
+	final DBConnector db = new DBConnector();
+	
+	private DefaultListModel<String> model = new DefaultListModel<String>();
+	private JList<String> tableNameList;
+	private String selectedTable;
+	
+	private JPanel dataInsertPanel;
+	private JButton insertButton;
+	private JPanel insertPanel;
+	private JScrollPane insertScrollPane ;
+	private ArrayList<JTextField> insertTextFields = new ArrayList<JTextField>();
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TableDisplay frame = new TableDisplay();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public TableDisplay() {
+		
+		//minimum size that the window can be resized to
+		setMinimumSize(new Dimension(450, 300));
+		
+		try 
+		{
+			//Makes Gui look like a windows application
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
+		
+		JPanel dataViewPanel = new JPanel();
+		tabbedPane.addTab("Data View", null, dataViewPanel, null);
+		dataViewPanel.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		dataViewPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		dataTable = new JTable();
+		scrollPane.setViewportView(dataTable);
+		
+		JPanel panel = new JPanel();
+		dataViewPanel.add(panel, BorderLayout.SOUTH);
+		
+		JButton btnDelete = new JButton("Delete");
+		panel.add(btnDelete);
+		
+		
+		//Delete button.When clicked, the selected row will be deleted from the database
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				//confirmation dialog box to confirm delete with user
+				if(JOptionPane.showConfirmDialog(contentPane, "Are you sure you want to delete?", "Confirm", 0) == 0)
+				{
+					db.deleteRow(selectedTable, db.getColumnNames(selectedTable)[0].toString(), dataTable.getValueAt(dataTable.getSelectedRow() , 0).toString());
+					
+					refreshData();
+				}
+				
+			}
+		});
+		
+		dataInsertPanel = new JPanel();
+		tabbedPane.addTab("Data Insert", null, dataInsertPanel, null);
+		dataInsertPanel.setLayout(new BorderLayout(0, 0));
+		
+		insertScrollPane = new JScrollPane();
+		insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		//insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		dataInsertPanel.add(insertScrollPane);
+		
+		insertPanel = new JPanel();
+		insertScrollPane.setViewportView(insertPanel);
+		insertPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		insertPanel.add(panel_1);
+		//dataInsertPanel.add(panel_5);
+		
+		insertButton = new JButton("Insert");
+		panel_1.add(insertButton);
+		
+		
+		//button used to insert data into the database
+		insertButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String [] values = new String[insertTextFields.size()];
+				
+				//loads in all the input data from the text fields into an array
+				for(int i = 0 ; i < values.length ; i++)
+				{
+					values[i] = insertTextFields.get(i).getText();
+				}
+				
+				db.insert(selectedTable,values);
+				refreshData();
+			}
+		});
+		
+		JPanel toolBarPanel = new JPanel();
+		contentPane.add(toolBarPanel, BorderLayout.SOUTH);
+		
+		JButton btnNewButton = new JButton("Refresh data");
+		toolBarPanel.add(btnNewButton);
+		
+		tableNameList = new JList<String>(model);
+		
+		//The list of tables on the left. If you select a table name, the data presented will be changed to that tables data
+		tableNameList.addListSelectionListener(new ListSelectionListener() {
+			int i =0;
+			@SuppressWarnings("unchecked")
+			public void valueChanged(ListSelectionEvent e) 
+			{
+				if (!e.getValueIsAdjusting())//This line prevents double events
+				{
+					JList<String> jl =  (JList<String>) e.getSource();
+					if(jl.getSelectedValue() != null)
+					{
+						selectedTable = jl.getSelectedValue().toString();
+						refreshData();
+					}	
+				}
+			}
+		});
+		
+		JScrollPane tableNameScrollPane = new JScrollPane();
+		contentPane.add(tableNameScrollPane, BorderLayout.WEST);
+		tableNameScrollPane.setPreferredSize(new Dimension(100, 20));
+		tableNameScrollPane.setViewportView(tableNameList);
+		tableNameList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		tableNameList.setLayoutOrientation(JList.VERTICAL);
+		tableNameList.setVisibleRowCount(-1);
+		
+		/*db.setLoginInfo(
+						"jdbc:oracle:thin:@" + 
+						JOptionPane.showInputDialog("Enter host address") + ":1521:" +
+						JOptionPane.showInputDialog("Enter SID"),
+						JOptionPane.showInputDialog("Enter username"),
+						JOptionPane.showInputDialog("Enter password"));*/
+		
+		db.connect();
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshData();
+			}
+		});
+		
+		selectedTable = db.getDatabaseTables()[0];
+		//refreshData();
+	}
+
+	public void refreshData()
+	{
+		String[][] report = db.getQueryRows(selectedTable,db.getColumnNames(selectedTable)[0]);
+		
+		String[] names = db.getColumnNames(selectedTable);
+		
+		
+		insertPanel.removeAll();
+		JPanel insertButtonPanel = new JPanel();
+		insertButtonPanel.add(insertButton);
+		insertPanel.add(insertButtonPanel);
+		insertPanel.add(new JLabel());
+		
+		//clear the array of textfields to remove the ones from the previous table
+		insertTextFields.clear();
+		for(int i = 0 ; i < names.length ; i++)
+		{
+			JPanel panel = new JPanel();
+			JLabel label = new JLabel(names[i]);
+			JTextField textField = new JTextField(15);
+			
+			panel.add(label);
+			insertPanel.add(panel);
+			
+			panel = new JPanel();
+			panel.add(textField);
+			insertPanel.add(panel);
+			
+			insertTextFields.add(textField);
+			//insertPanel.add(new JLabel());
+		}
+		
+		dataInsertPanel.revalidate();
+		dataInsertPanel.repaint();
+		
+		dataTable = new JTable(report, names);
+		scrollPane.setViewportView(dataTable);
+		
+		
+		//model = new DefaultListModel<String>();
+		//System.out.println(model);
+		model.clear();
+		tableNameList = new JList<String>(model);
+		String[] tableNames = db.getDatabaseTables();
+		
+		for(int i = 0 ; i < tableNames.length ; i++)
+		{
+			model.addElement(tableNames[i]);
+		}	
+	}
+	
+}

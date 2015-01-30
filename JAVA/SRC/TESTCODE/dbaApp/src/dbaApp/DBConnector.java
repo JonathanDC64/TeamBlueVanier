@@ -1,19 +1,17 @@
 package dbaApp;
 import java.sql.Connection;  // for standard JDBC programs
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 // for BigDecimal and BigInteger support
 public class DBConnector {
 
 	private String URL, USER, PASS;
-	private Connection conn;
+	private Connection connection;
 	
 	public DBConnector()
 	{
@@ -42,11 +40,25 @@ public class DBConnector {
 	
 	public void connect()
 	{
-		try {
-			conn = DriverManager.getConnection(URL, USER, PASS);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		try 
+		{
+			connection = DriverManager.getConnection(URL, USER, PASS);
+		} 
+		catch (SQLException e) 
+		{
 			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	}
+	
+	public void closeConnection()
+	{
+		try 
+		{
+			connection.close();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 	
@@ -54,7 +66,7 @@ public class DBConnector {
 	{
 		try {
 			Statement stmt = null;
-			stmt = conn.createStatement( );
+			stmt = connection.createStatement( );
 			ResultSet rs;
 			rs = stmt.executeQuery("select table_name from user_tables");
 			ArrayList<String> text = new ArrayList<String>();
@@ -64,8 +76,9 @@ public class DBConnector {
 		    }
 			
 			return text.toArray(new String[text.size()]);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) 
+		{
 			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 
@@ -76,7 +89,7 @@ public class DBConnector {
 	{
 		try {
 			Statement stmt = null;
-			stmt = conn.createStatement( );
+			stmt = connection.createStatement( );
 			ResultSet rs;
 						
 			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName.toUpperCase() + "'");
@@ -97,24 +110,25 @@ public class DBConnector {
 			}
 			
 			return values;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) 
+		{
 			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 
 		return null;
 	}
 	
-	public String[][] getQueryRows(String tableName, String orderBy)
+	public String[][] getAllRows(String tableName, String orderBy)
 	{
 		try 
 		{
-			PreparedStatement pstmt = null;
+			//PreparedStatement pstmt = null;
 			
 
 			Statement stmt = null;
 			
-			stmt = conn.createStatement( );
+			stmt = connection.createStatement( );
 			ResultSet rs;
 			
 			
@@ -139,23 +153,29 @@ public class DBConnector {
 				text.add(t);
 				rows++;
 		    }
-
-			String[][] fText = new String[rows][text.get(0).size()];
 			
-			for(int i = 0 ; i < text.size() ; i++)
+			String[][] fText = new String[0][0];
+			
+			if (!text.isEmpty()) 
 			{
-				for(int j = 0 ; j < text.get(0).size() ; j++)
+				fText = new String[rows][text.get(0).size()];
+				for (int i = 0; i < text.size(); i++) 
 				{
-					fText[i][j] = text.get(i).get(j);
+					for (int j = 0; j < text.get(0).size(); j++) 
+					{
+						fText[i][j] = text.get(i).get(j);
+					}
 				}
 			}
+			
 			
 			//conn.close();
 			
 			return fText;
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e)
+		{
 			e.printStackTrace();
 		}
 		return null;
@@ -165,7 +185,7 @@ public class DBConnector {
 	{
 		Statement stmt = null;
 		try {
-			stmt = conn.createStatement();
+			stmt = connection.createStatement();
 			String sql = "insert into " + tableName +" values(";
 			for(int i = 0 ; i < values.length ; i++)
 			{
@@ -182,22 +202,41 @@ public class DBConnector {
 			System.out.println(sql);
 			stmt.executeQuery(sql);
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLException e) 
+		{
 			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 	}
 	
-	public void deleteRow(String tableName, String primaryKeyName, String primaryKeyValue)
+	public void update(String tableName, String primaryKeyName, String primaryKeyValue, String updateColumnName, String updateColumnValue)
+	{
+		
+		Statement stmt = null;
+		
+		try 
+		{
+			stmt = connection.createStatement();
+			stmt.executeQuery("update " + tableName + " set " + updateColumnName + "='" + updateColumnValue + "' where " + primaryKeyName + "='" + primaryKeyValue +"'");
+		} 
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	}
+	
+	public void delete(String tableName, String primaryKeyName, String primaryKeyValue)
 	{
 		Statement stmt = null;
 		
-		try {
-			stmt = conn.createStatement();
+		try 
+		{
+			stmt = connection.createStatement();
 			stmt.executeQuery("delete from " + tableName + " where " + primaryKeyName + "='" + primaryKeyValue + "'" );
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null,e.getMessage());
 		}
 	}
 
