@@ -30,9 +30,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 
 /**
  * @author Jonathan Del Corpo
@@ -139,15 +136,6 @@ public class TableDisplay extends JFrame {
 				dataChanges.clear();
 			}
 		});
-		
-		JButton btnNewButton = new JButton("Refresh data");
-		panel.add(btnNewButton);
-		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshData();
-			}
-		});
 		panel.add(btnEdit);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -172,15 +160,6 @@ public class TableDisplay extends JFrame {
 		dataInsertPanel = new JPanel();
 		tabbedPane.addTab("Data Insert", null, dataInsertPanel, null);
 		dataInsertPanel.setLayout(new BorderLayout(0, 0));
-		
-		insertScrollPane = new JScrollPane();
-		insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		//insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		dataInsertPanel.add(insertScrollPane, BorderLayout.CENTER);
-		
-		insertPanel = new JPanel();
-		insertScrollPane.setViewportView(insertPanel);
-		insertPanel.setLayout(new VerticalLayout(0,VerticalLayout.LEFT));
 		//dataInsertPanel.add(panel_5);
 		
 		insertButton = new JButton("Insert");
@@ -202,6 +181,21 @@ public class TableDisplay extends JFrame {
 				refreshData();
 			}
 		});
+		
+		insertScrollPane = new JScrollPane();
+		insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		//insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		dataInsertPanel.add(insertScrollPane);
+		
+		insertPanel = new JPanel();
+		insertScrollPane.setViewportView(insertPanel);
+		insertPanel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel toolBarPanel = new JPanel();
+		contentPane.add(toolBarPanel, BorderLayout.SOUTH);
+		
+		JButton btnNewButton = new JButton("Refresh data");
+		toolBarPanel.add(btnNewButton);
 		
 		tableNameList = new JList<String>(model);
 		
@@ -256,6 +250,12 @@ public class TableDisplay extends JFrame {
 		
 		//connect to the databse
 		db.connect();
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshData();
+			}
+		});
 		
 
 		

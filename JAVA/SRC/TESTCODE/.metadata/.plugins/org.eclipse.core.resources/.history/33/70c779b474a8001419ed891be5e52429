@@ -32,7 +32,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.GridBagLayout;
 import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 
 /**
  * @author Jonathan Del Corpo
@@ -176,11 +175,11 @@ public class TableDisplay extends JFrame {
 		insertScrollPane = new JScrollPane();
 		insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		//insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		dataInsertPanel.add(insertScrollPane, BorderLayout.CENTER);
+		dataInsertPanel.add(insertScrollPane, BorderLayout.WEST);
 		
 		insertPanel = new JPanel();
 		insertScrollPane.setViewportView(insertPanel);
-		insertPanel.setLayout(new VerticalLayout(0,VerticalLayout.LEFT));
+		insertPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		//dataInsertPanel.add(panel_5);
 		
 		insertButton = new JButton("Insert");

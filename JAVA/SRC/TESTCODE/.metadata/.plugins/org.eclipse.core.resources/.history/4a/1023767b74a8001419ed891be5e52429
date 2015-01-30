@@ -31,8 +31,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 
 /**
  * @author Jonathan Del Corpo
@@ -176,11 +174,16 @@ public class TableDisplay extends JFrame {
 		insertScrollPane = new JScrollPane();
 		insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		//insertScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		dataInsertPanel.add(insertScrollPane, BorderLayout.CENTER);
+		dataInsertPanel.add(insertScrollPane);
 		
 		insertPanel = new JPanel();
 		insertScrollPane.setViewportView(insertPanel);
-		insertPanel.setLayout(new VerticalLayout(0,VerticalLayout.LEFT));
+		GridBagLayout gbl_insertPanel = new GridBagLayout();
+		gbl_insertPanel.columnWidths = new int[]{0};
+		gbl_insertPanel.rowHeights = new int[]{0};
+		gbl_insertPanel.columnWeights = new double[]{Double.MIN_VALUE};
+		gbl_insertPanel.rowWeights = new double[]{Double.MIN_VALUE};
+		insertPanel.setLayout(gbl_insertPanel);
 		//dataInsertPanel.add(panel_5);
 		
 		insertButton = new JButton("Insert");

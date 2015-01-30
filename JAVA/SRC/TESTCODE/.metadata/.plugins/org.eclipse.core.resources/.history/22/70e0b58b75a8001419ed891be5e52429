@@ -180,7 +180,7 @@ public class TableDisplay extends JFrame {
 		
 		insertPanel = new JPanel();
 		insertScrollPane.setViewportView(insertPanel);
-		insertPanel.setLayout(new VerticalLayout(0,VerticalLayout.LEFT));
+		insertPanel.setLayout(new VerticalLayout(),VerticalLayout.LEFT);
 		//dataInsertPanel.add(panel_5);
 		
 		insertButton = new JButton("Insert");
