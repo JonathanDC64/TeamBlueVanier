@@ -17,8 +17,9 @@ public class DBConnector {
 	{
 		try {
 			   Class.forName("oracle.jdbc.driver.OracleDriver");
+				//Class.forName("com.mysql.jdbc.Driver");
 			   setLoginInfo("jdbc:oracle:thin:@localhost:1521:BlueTeam","btv","btv");
-			   //setLoginInfo("jdbc:oracle:thin:@" + HOST + ":1521:" + SID,USER,PASS);
+			   //setLoginInfo("jdbc:mysql://localhost/BlueTeam","btv","btv");
 			}
 			catch(ClassNotFoundException ex) {
 			   JOptionPane.showMessageDialog(null,"Error: unable to load driver class!");
@@ -92,24 +93,15 @@ public class DBConnector {
 			stmt = connection.createStatement( );
 			ResultSet rs;
 						
-			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName.toUpperCase() + "'");
+			rs = stmt.executeQuery("Select COLUMN_NAME from user_tab_columns where table_name='" + tableName.toUpperCase() + "' order by COLUMN_ID");
 	
 			ArrayList<String> text = new ArrayList<String>();
+			
 			while(rs.next())
-			{
 		         text.add(rs.getString(1));//1st column
-		    }
+		    
 			
-			String[] values = new String[text.size()];
-			
-			
-			//reverse the values since they are in the wrong order
-			for(int i = values.length; i > 0 ; i--)
-			{
-				values[values.length - i] = text.get(i-1);
-			}
-			
-			return values;
+			return text.toArray(new String[text.size()]);
 		} 
 		catch (SQLException e) 
 		{
@@ -124,7 +116,6 @@ public class DBConnector {
 		try 
 		{
 			//PreparedStatement pstmt = null;
-			
 
 			Statement stmt = null;
 			
@@ -225,7 +216,7 @@ public class DBConnector {
 		}
 	}
 	
-	public void delete(String tableName, String primaryKeyName, String primaryKeyValue)
+	public void deleteRow(String tableName, String primaryKeyName, String primaryKeyValue)
 	{
 		Statement stmt = null;
 		

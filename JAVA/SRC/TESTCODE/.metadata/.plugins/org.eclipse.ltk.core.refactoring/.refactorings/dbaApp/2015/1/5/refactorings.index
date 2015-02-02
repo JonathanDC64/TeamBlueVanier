@@ -5,3 +5,4 @@
 1422580808745	Rename field 'conn'
 1422580941666	Rename method 'getQueryRows'
 1422583269201	Rename method 'deleteRow'
+1422709155333	Rename method 'delete'

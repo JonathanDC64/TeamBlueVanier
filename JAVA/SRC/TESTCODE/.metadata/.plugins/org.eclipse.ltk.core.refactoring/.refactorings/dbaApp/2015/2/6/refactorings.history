@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;dataTable&apos; in &apos;dbaApp.ColumnsAutoSizer.autoResizeColumns(...)&apos; to &apos;table&apos;&#x0D;&#x0A;- Original project: &apos;dbaApp&apos;&#x0D;&#x0A;- Original element: &apos;dbaApp.ColumnsAutoSizer.autoResizeColumns(JTable).dataTable&apos;&#x0D;&#x0A;- Renamed element: &apos;dataTable&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;dataTable&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;dbaApp{ColumnsAutoSizer.java[ColumnsAutoSizer~autoResizeColumns~QJTable;@dataTable!4170!4185!4177!4185!QJTable;!0!true" name="table" references="true" stamp="1422840800735" version="1.0"/>
+</session>

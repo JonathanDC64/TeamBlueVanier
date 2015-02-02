@@ -1,18 +1,27 @@
 package dbaApp;
 
 //Imports
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JPanel;
 
 class ListExample
 		extends 	JFrame
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Instance attributes used in this example
 	private	JPanel		topPanel;
+	@SuppressWarnings("rawtypes")
 	private	JList		listbox;
 
 	// Constructor of main frame
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ListExample()
 	{
 		// Set the frame characteristics

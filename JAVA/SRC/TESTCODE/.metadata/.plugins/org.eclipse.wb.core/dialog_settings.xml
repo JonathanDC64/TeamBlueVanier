@@ -6,6 +6,12 @@
 		<item value="289" key="y"/>
 		<item value="281" key="height"/>
 	</section>
+	<section name="org.eclipse.wb.internal.core.model.util.ExposePropertySupport$ExposePropertyAction$ExposeDialog">
+		<item value="537" key="x"/>
+		<item value="525" key="width"/>
+		<item value="223" key="y"/>
+		<item value="413" key="height"/>
+	</section>
 	<section name="org.eclipse.wb.internal.core.model.property.editor.string.StringPropertyDialog">
 		<item value="535" key="x"/>
 		<item value="530" key="width"/>

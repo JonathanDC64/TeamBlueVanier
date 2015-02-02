@@ -1,9 +1,10 @@
 package dbaApp;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,25 +15,32 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import java.awt.GridBagLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  * @author Jonathan Del Corpo
@@ -63,6 +71,22 @@ public class TableDisplay extends JFrame {
 	
 	//holds any changes made to data
 	private ArrayList<Integer> dataChanges = new ArrayList<Integer>();
+	
+	
+	private JSpinner fontSizeSpinner;
+	private JLabel fontSizeLabel;
+	private int fontSize = 12;
+	private JSlider fontSlider;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenuItem mntmPlaceholder;
+	private JPanel calendarPanel;
+	private JPanel buttonPanels;
+	private JPanel buttonPanel2;
+	private JLabel lblCellHeight;
+	private JSlider slider;
+	private JSpinner spinner;
+	private JLabel tableNameLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -87,7 +111,7 @@ public class TableDisplay extends JFrame {
 		setTitle("Blue Team Vanier");
 		
 		//minimum size that the window can be resized to
-		setMinimumSize(new Dimension(450, 300));
+		setMinimumSize(new Dimension(460, 300));
 		
 		try 
 		{
@@ -100,7 +124,16 @@ public class TableDisplay extends JFrame {
 		}
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 600, 300);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		mntmPlaceholder = new JMenuItem("preferences");
+		mnFile.add(mntmPlaceholder);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -113,11 +146,18 @@ public class TableDisplay extends JFrame {
 		tabbedPane.addTab("Data View", null, dataViewPanel, null);
 		dataViewPanel.setLayout(new BorderLayout(0, 0));
 		
+		tableNameLabel = new JLabel("");
+		dataViewPanel.add(tableNameLabel, BorderLayout.NORTH);
+		
 		scrollPane = new JScrollPane();
 		dataViewPanel.add(scrollPane, BorderLayout.CENTER);
 		
-		JPanel panel = new JPanel();
-		dataViewPanel.add(panel, BorderLayout.SOUTH);
+		buttonPanels = new JPanel();
+		dataViewPanel.add(buttonPanels, BorderLayout.SOUTH);
+		buttonPanels.setLayout(new BorderLayout(0, 0));
+		
+		JPanel buttonPanel1 = new JPanel();
+		buttonPanels.add(buttonPanel1,BorderLayout.NORTH);
 		
 		btnEdit = new JButton("Apply");
 		
@@ -140,18 +180,70 @@ public class TableDisplay extends JFrame {
 			}
 		});
 		
-		JButton btnNewButton = new JButton("Refresh data");
-		panel.add(btnNewButton);
+		JButton btnNewButton = new JButton("Refresh");
+		buttonPanel1.add(btnNewButton);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refreshData();
 			}
 		});
-		panel.add(btnEdit);
+		buttonPanel1.add(btnEdit);
 		
 		JButton btnDelete = new JButton("Delete");
-		panel.add(btnDelete);
+		buttonPanel1.add(btnDelete);
+		
+		fontSizeLabel = new JLabel("Font size");
+		buttonPanel1.add(fontSizeLabel);
+		
+		fontSizeSpinner = new JSpinner();
+		fontSizeSpinner.addChangeListener(new ChangeListener() 
+		{
+			public void stateChanged(ChangeEvent e) 
+			{
+				fontSize = (Integer) fontSizeSpinner.getValue();
+				fontSlider.setValue(fontSize);
+				refreshFontSize();
+			}
+		});
+		
+		fontSlider = new JSlider();
+		fontSlider.setSnapToTicks(true);
+		fontSlider.setMaximum(25);
+		fontSlider.addChangeListener(new ChangeListener() 
+		{
+			public void stateChanged(ChangeEvent e) 
+			{
+				fontSize = (Integer) fontSlider.getValue();
+				fontSizeSpinner.setValue((Integer) fontSize);
+				refreshFontSize();
+			}
+		});
+		fontSlider.setValue(fontSize);
+		fontSlider.setMinimum(5);
+		fontSlider.setPreferredSize(new Dimension(100, 26));
+		buttonPanel1.add(fontSlider);
+		fontSizeSpinner.setPreferredSize(new Dimension(40, 20));
+		fontSizeSpinner.setModel(new SpinnerNumberModel(12, 5, 25, 1));
+		buttonPanel1.add(fontSizeSpinner);
+		
+		buttonPanel2 = new JPanel();
+		buttonPanels.add(buttonPanel2);
+		
+		lblCellHeight = new JLabel("Cell Height");
+		buttonPanel2.add(lblCellHeight);
+		
+		slider = new JSlider();
+		slider.setValue(12);
+		slider.setSnapToTicks(true);
+		slider.setPreferredSize(new Dimension(100, 26));
+		slider.setMinimum(5);
+		slider.setMaximum(25);
+		buttonPanel2.add(slider);
+		
+		spinner = new JSpinner();
+		spinner.setPreferredSize(new Dimension(40, 20));
+		buttonPanel2.add(spinner);
 		
 		
 		//Delete button.When clicked, the selected row will be deleted from the database
@@ -161,7 +253,7 @@ public class TableDisplay extends JFrame {
 				//confirmation dialog box to confirm delete with user
 				if(JOptionPane.showConfirmDialog(contentPane, "Are you sure you want to delete?", "Confirm", 0) == 0)
 				{
-					db.delete(selectedTable, db.getColumnNames(selectedTable)[0].toString(), dataTable.getValueAt(dataTable.getSelectedRow() , 0).toString());
+					db.deleteRow(selectedTable, db.getColumnNames(selectedTable)[0].toString(), dataTable.getValueAt(dataTable.getSelectedRow() , 0).toString());
 					
 					refreshData();
 				}
@@ -185,6 +277,9 @@ public class TableDisplay extends JFrame {
 		
 		insertButton = new JButton("Insert");
 		dataInsertPanel.add(insertButton, BorderLayout.SOUTH);
+		
+		calendarPanel = new JPanel();
+		tabbedPane.addTab("Calendar", null, calendarPanel, null);
 		
 		
 		//button used to insert data into the database
@@ -215,8 +310,9 @@ public class TableDisplay extends JFrame {
 					//in case changes where made and not saved
 					if(!dataChanges.isEmpty())
 					{
-						if(JOptionPane.showConfirmDialog(null, "Changes have not been changed. Are you sure you want to load another table?", "Confirm",0) == 1)
+						if(JOptionPane.showConfirmDialog(null, "Changes have not been saved. Are you sure you want to load another table?", "Confirm",0) == 1)
 						{
+							//refreshTableNameList();
 							return;
 						}		
 					}
@@ -244,6 +340,13 @@ public class TableDisplay extends JFrame {
 		tableNameList.setLayoutOrientation(JList.VERTICAL);
 		tableNameList.setVisibleRowCount(-1);
 		
+/*		dataTable.getModel().addTableModelListener(new TableModelListener() {
+		    public void tableChanged(TableModelEvent e) {
+		        ColumnsAutoSizer.sizeColumnsToFit(dataTable);
+		    }
+		});*/
+		
+		
 		
 		//provide login info for database
 		/*db.setLoginInfo(
@@ -269,56 +372,20 @@ public class TableDisplay extends JFrame {
 	 */
 	public void refreshData()
 	{
-		//gets all the rows from a table
 		final String[][] rows = db.getAllRows(selectedTable,db.getColumnNames(selectedTable)[0]);
 		
 		
 		//gets all the column names of a table
 		final String[] names = db.getColumnNames(selectedTable);
 		
-		//resets the panel for other components to replace the previous ones
-		insertPanel.removeAll();
-		
-		
-		/*JPanel insertButtonPanel = new JPanel();
-		insertButtonPanel.add(insertButton);
-		
-		
-		insertPanel.add(insertButtonPanel);*/
-		
-		//add an empty jlabel to properly space out components
-		//insertPanel.add(new JLabel());
-		
-		//clear the array of textfields to remove the ones from the previous table
-		insertTextFields.clear();
-		
-		//add as many labels and text fields as there are columns in the table
-		for(int i = 0 ; i < names.length ; i++)
-		{
-			JPanel panel = new JPanel();
-			JLabel label = new JLabel(names[i]);
-			JTextField textField = new JTextField(15);
-			
-			panel.add(label);
-			insertPanel.add(panel);
-			
-			panel = new JPanel();
-			panel.add(textField);
-			insertPanel.add(panel);
-			
-			//add the textfield to an array to be used when inserting
-			insertTextFields.add(textField);
-		}
-		
-		//re-renders the panel since its graphical information has changed
-		dataInsertPanel.revalidate();
-		dataInsertPanel.repaint();
-		
-		//refresh the table
-		dataTable = new JTable(rows, names);
-		scrollPane.setViewportView(dataTable);
-		
-		
+		refreshInsertTab(rows, names);
+		refreshTableNameList();
+		refreshDataTable(rows, names);
+		tableNameLabel.setText(selectedTable);
+	}
+	
+	private void refreshTableNameList()
+	{
 		model.clear();
 		tableNameList = new JList<String>(model);
 		String[] tableNames = db.getDatabaseTables();
@@ -328,28 +395,96 @@ public class TableDisplay extends JFrame {
 		{
 			model.addElement(tableNames[i]);
 		}
-		
-		dataTable.getModel().addTableModelListener(
-		new TableModelListener() 
-		{
-		    public void tableChanged(TableModelEvent e) 
-		    {
-		    	for(int i = 0 ; i < names.length ; i++)
-		    	{
-		    		int row = dataTable.getSelectedRow();
-		    		
-		    		if(!dataChanges.contains(row))//prevents from adding the same one twice
-		    		{
-		    			dataChanges.add(row);
-		    		}
-		    		
-		    		
-		    		//System.out.println(dataTable.getSelectedRow()/*dataTable.getModel().getValueAt(dataTable.getSelectedRow(), i)*/);
-		    	}
-		       
-		       
-		    }
-		});
+	}
+	
+	private void refreshInsertTab(String[][] rows, String[] names)
+	{
+		//gets all the rows from a table
+				
+				
+				//resets the panel for other components to replace the previous ones
+				insertPanel.removeAll();
+				
+				
+				/*JPanel insertButtonPanel = new JPanel();
+				insertButtonPanel.add(insertButton);
+				
+				
+				insertPanel.add(insertButtonPanel);*/
+				
+				//add an empty jlabel to properly space out components
+				//insertPanel.add(new JLabel());
+				
+				//clear the array of textfields to remove the ones from the previous table
+				insertTextFields.clear();
+				
+				//add as many labels and text fields as there are columns in the table
+				for(int i = 0 ; i < names.length ; i++)
+				{
+					JPanel panel = new JPanel();
+					JLabel label = new JLabel(names[i]);
+					JTextField textField = new JTextField(15);
+					
+					panel.add(label);
+					insertPanel.add(panel);
+					
+					panel = new JPanel();
+					panel.add(textField);
+					insertPanel.add(panel);
+					
+					//add the textfield to an array to be used when inserting
+					insertTextFields.add(textField);
+				}
+				
+				//re-renders the panel since its graphical information has changed
+				dataInsertPanel.revalidate();
+				dataInsertPanel.repaint();
+	}
+	
+	private void refreshDataTable(String[][] rows, final String[] names)
+	{
+		//refresh the table
+				dataTable = new JTable(rows, names);
+				dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				dataTable.setFillsViewportHeight(true);
+				dataTable.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+				dataTable.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+				scrollPane.setViewportView(dataTable);
+				dataTable.setRowHeight(30);
+				
+				ColumnsAutoSizer.autoResizeColumns(dataTable);
+
+				
+				
+				dataTable.getModel().addTableModelListener(
+				new TableModelListener() 
+				{
+				    public void tableChanged(TableModelEvent e) 
+				    {
+				    	for(int i = 0 ; i < names.length ; i++)
+				    	{
+				    		int row = dataTable.getSelectedRow();
+				    		
+				    		if(!dataChanges.contains(row))//prevents from adding the same one twice
+				    		{
+				    			dataChanges.add(row);
+				    		}
+				    		
+				    		
+				    		//System.out.println(dataTable.getSelectedRow()/*dataTable.getModel().getValueAt(dataTable.getSelectedRow(), i)*/);
+				    	}
+				       
+				       
+				    }
+				});
+	}
+	
+	private void refreshFontSize()
+	{
+		dataTable.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		dataTable.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		tableNameLabel.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		ColumnsAutoSizer.autoResizeColumns(dataTable);
 	}
 	
 }
