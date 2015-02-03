@@ -5,10 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -39,8 +41,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Jonathan Del Corpo
@@ -55,7 +60,7 @@ public class TableDisplay extends JFrame {
 	private JTable dataTable = new JTable();
 
 	final private JScrollPane scrollPane;
-	final DBConnector db = new DBConnector();
+	DBConnector db = new DBConnector();
 	
 	private DefaultListModel<String> model = new DefaultListModel<String>();
 	private JList<String> tableNameList;
@@ -87,6 +92,7 @@ public class TableDisplay extends JFrame {
 	private JSlider slider;
 	private JSpinner spinner;
 	private JLabel tableNameLabel;
+	private JScrollPane scrollPane_1;
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +100,7 @@ public class TableDisplay extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TableDisplay frame = new TableDisplay();
+					TableDisplay frame = new TableDisplay(new DBConnector());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,7 +112,9 @@ public class TableDisplay extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TableDisplay() {
+	public TableDisplay(final DBConnector db) {
+		
+		this.db = db;
 		setIconImage(Toolkit.getDefaultToolkit().getImage("icon.png"));
 		setTitle("Blue Team Vanier");
 		
@@ -122,6 +130,9 @@ public class TableDisplay extends JFrame {
 		{
 			e.printStackTrace();
 		}
+		
+		
+		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 300);
@@ -157,7 +168,27 @@ public class TableDisplay extends JFrame {
 		buttonPanels.setLayout(new BorderLayout(0, 0));
 		
 		JPanel buttonPanel1 = new JPanel();
-		buttonPanels.add(buttonPanel1,BorderLayout.NORTH);
+		//buttonPanels.add(buttonPanel1,BorderLayout.NORTH);
+		
+		fontSizeSpinner = new JSpinner();
+		fontSizeSpinner.addChangeListener(new ChangeListener() 
+		{
+			public void stateChanged(ChangeEvent e) 
+			{
+				fontSize = (Integer) fontSizeSpinner.getValue();
+				fontSlider.setValue(fontSize);
+				refreshFontSize();
+			}
+		});
+		
+		JButton btnNewButton = new JButton("Refresh");
+		buttonPanel1.add(btnNewButton);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshData();
+			}
+		});
 		
 		btnEdit = new JButton("Apply");
 		
@@ -179,71 +210,10 @@ public class TableDisplay extends JFrame {
 				dataChanges.clear();
 			}
 		});
-		
-		JButton btnNewButton = new JButton("Refresh");
-		buttonPanel1.add(btnNewButton);
-		
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshData();
-			}
-		});
 		buttonPanel1.add(btnEdit);
 		
 		JButton btnDelete = new JButton("Delete");
 		buttonPanel1.add(btnDelete);
-		
-		fontSizeLabel = new JLabel("Font size");
-		buttonPanel1.add(fontSizeLabel);
-		
-		fontSizeSpinner = new JSpinner();
-		fontSizeSpinner.addChangeListener(new ChangeListener() 
-		{
-			public void stateChanged(ChangeEvent e) 
-			{
-				fontSize = (Integer) fontSizeSpinner.getValue();
-				fontSlider.setValue(fontSize);
-				refreshFontSize();
-			}
-		});
-		
-		fontSlider = new JSlider();
-		fontSlider.setSnapToTicks(true);
-		fontSlider.setMaximum(25);
-		fontSlider.addChangeListener(new ChangeListener() 
-		{
-			public void stateChanged(ChangeEvent e) 
-			{
-				fontSize = (Integer) fontSlider.getValue();
-				fontSizeSpinner.setValue((Integer) fontSize);
-				refreshFontSize();
-			}
-		});
-		fontSlider.setValue(fontSize);
-		fontSlider.setMinimum(5);
-		fontSlider.setPreferredSize(new Dimension(100, 26));
-		buttonPanel1.add(fontSlider);
-		fontSizeSpinner.setPreferredSize(new Dimension(40, 20));
-		fontSizeSpinner.setModel(new SpinnerNumberModel(12, 5, 25, 1));
-		buttonPanel1.add(fontSizeSpinner);
-		
-		buttonPanel2 = new JPanel();
-		buttonPanels.add(buttonPanel2);
-		
-		lblCellHeight = new JLabel("Cell Height");
-		buttonPanel2.add(lblCellHeight);
-		
-		slider = new JSlider();
-		slider.setValue(12);
-		slider.setSnapToTicks(true);
-		slider.setPreferredSize(new Dimension(100, 26));
-		slider.setMinimum(5);
-		slider.setMaximum(25);
-		buttonPanel2.add(slider);
-		
-		spinner = new JSpinner();
-		spinner.setPreferredSize(new Dimension(40, 20));
-		buttonPanel2.add(spinner);
 		
 		
 		//Delete button.When clicked, the selected row will be deleted from the database
@@ -260,6 +230,52 @@ public class TableDisplay extends JFrame {
 				
 			}
 		});
+		
+		fontSizeLabel = new JLabel("Font size");
+		buttonPanel1.add(fontSizeLabel);
+		
+		fontSlider = new JSlider();
+		fontSlider.setSnapToTicks(true);
+		fontSlider.setMaximum(25);
+		fontSlider.addChangeListener(new ChangeListener() 
+		{
+			public void stateChanged(ChangeEvent e) 
+			{
+				fontSize = (Integer) fontSlider.getValue();
+				fontSizeSpinner.setValue((Integer) fontSize);
+				refreshFontSize();
+			}
+		});
+		fontSlider.setValue(fontSize);
+		fontSlider.setMinimum(12);
+		fontSlider.setPreferredSize(new Dimension(100, 26));
+		buttonPanel1.add(fontSlider);
+		fontSizeSpinner.setPreferredSize(new Dimension(40, 20));
+		fontSizeSpinner.setModel(new SpinnerNumberModel(12, 12, 25, 1));
+		buttonPanel1.add(fontSizeSpinner);
+		
+		buttonPanel2 = new JPanel();
+		buttonPanels.add(buttonPanel2);
+		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane_1.setViewportView(buttonPanel1);
+		
+		lblCellHeight = new JLabel("Cell Height");
+		buttonPanel1.add(lblCellHeight);
+		
+		slider = new JSlider();
+		buttonPanel1.add(slider);
+		slider.setValue(12);
+		slider.setSnapToTicks(true);
+		slider.setPreferredSize(new Dimension(100, 26));
+		slider.setMinimum(5);
+		slider.setMaximum(25);
+		
+		spinner = new JSpinner();
+		buttonPanel1.add(spinner);
+		spinner.setPreferredSize(new Dimension(40, 20));
+		buttonPanels.add(scrollPane_1, BorderLayout.SOUTH);
 		
 		dataInsertPanel = new JPanel();
 		tabbedPane.addTab("Data Insert", null, dataInsertPanel, null);
@@ -358,6 +374,10 @@ public class TableDisplay extends JFrame {
 		
 		
 		//connect to the databse
+		
+		
+		
+		
 		db.connect();
 		
 
@@ -365,6 +385,9 @@ public class TableDisplay extends JFrame {
 		//automatically sets the current talbe to the first one in the list
 		selectedTable = db.getDatabaseTables()[0];
 		refreshData();
+		
+		//maximized
+		//setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 	
 	/**
@@ -380,7 +403,7 @@ public class TableDisplay extends JFrame {
 		
 		refreshInsertTab(rows, names);
 		refreshTableNameList();
-		refreshDataTable(rows, names);
+		refreshDataTableContents(rows, names);
 		tableNameLabel.setText(selectedTable);
 	}
 	
@@ -441,42 +464,71 @@ public class TableDisplay extends JFrame {
 				dataInsertPanel.repaint();
 	}
 	
-	private void refreshDataTable(String[][] rows, final String[] names)
+	private void refreshDataTableContents(String[][] rows, final String[] names)
 	{
 		//refresh the table
-				dataTable = new JTable(rows, names);
-				dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-				dataTable.setFillsViewportHeight(true);
-				dataTable.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
-				dataTable.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, fontSize));
-				scrollPane.setViewportView(dataTable);
-				dataTable.setRowHeight(30);
+		dataTable = new JTable(rows, names);
+		
+		
+		dataTable.setAutoCreateRowSorter(true);
+		
+		
+		
+		
+		
+		
+		//Sorts the id column in numerical order rather than String order
+		@SuppressWarnings("unchecked")
+		TableRowSorter<DefaultTableModel> rowSorter = (TableRowSorter<DefaultTableModel>)dataTable.getRowSorter();
+		rowSorter.setComparator(0, new Comparator<String>() 
+		{
+	        public int compare(String o1, String o2)
+	        {
+	            return Integer.parseInt(o1) - Integer.parseInt(o2);
+	        }
+		});
+		
+		
+		
+		
+		
+		refreshDataTableRender(dataTable);
 				
-				ColumnsAutoSizer.autoResizeColumns(dataTable);
-
 				
-				
-				dataTable.getModel().addTableModelListener(
-				new TableModelListener() 
-				{
-				    public void tableChanged(TableModelEvent e) 
-				    {
-				    	for(int i = 0 ; i < names.length ; i++)
-				    	{
-				    		int row = dataTable.getSelectedRow();
-				    		
-				    		if(!dataChanges.contains(row))//prevents from adding the same one twice
-				    		{
-				    			dataChanges.add(row);
-				    		}
-				    		
-				    		
-				    		//System.out.println(dataTable.getSelectedRow()/*dataTable.getModel().getValueAt(dataTable.getSelectedRow(), i)*/);
-				    	}
-				       
-				       
-				    }
-				});
+		dataTable.getModel().addTableModelListener(
+		new TableModelListener() 
+		{
+		    public void tableChanged(TableModelEvent e) 
+		    {
+		    	for(int i = 0 ; i < names.length ; i++)
+		    	{
+		    		int row = dataTable.getSelectedRow();
+		    		
+		    		if(!dataChanges.contains(row))//prevents from adding the same one twice
+		    		{
+		    			dataChanges.add(row);
+		    		}
+		    		
+		    		
+		    		//System.out.println(dataTable.getSelectedRow()/*dataTable.getModel().getValueAt(dataTable.getSelectedRow(), i)*/);
+		    	}
+		       
+		       
+		    }
+		});
+	}
+	
+	private void refreshDataTableRender(JTable dataTable)
+	{
+		
+		dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		dataTable.setFillsViewportHeight(true);
+		dataTable.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		dataTable.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		scrollPane.setViewportView(dataTable);
+		dataTable.setRowHeight(30);
+		
+		ColumnsAutoSizer.autoResizeColumns(dataTable);
 	}
 	
 	private void refreshFontSize()

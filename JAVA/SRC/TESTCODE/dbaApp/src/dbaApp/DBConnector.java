@@ -39,15 +39,17 @@ public class DBConnector {
 		this.PASS = PASS;
 	}
 	
-	public void connect()
+	public boolean connect()
 	{
 		try 
 		{
 			connection = DriverManager.getConnection(URL, USER, PASS);
+			return true;
 		} 
 		catch (SQLException e) 
 		{
 			JOptionPane.showMessageDialog(null,e.getMessage());
+			return false;
 		}
 	}
 	
