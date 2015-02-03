@@ -1,0 +1,13 @@
+package dbaApp;
+
+import java.util.Scanner;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner s = new Scanner("1:2:3");
+		while(s.hasNext())
+			System.out.println(s.nextInt());
+	}
+}
