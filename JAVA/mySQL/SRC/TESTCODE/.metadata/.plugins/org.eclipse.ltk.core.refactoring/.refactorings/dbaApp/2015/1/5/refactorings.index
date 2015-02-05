@@ -1,0 +1,8 @@
+1422403548206	Rename method 'studentInsert'
+1422448547783	Delete element
+1422575965669	Rename field 'insertValues'
+1422577243180	Rename local variable 'report'
+1422580808745	Rename field 'conn'
+1422580941666	Rename method 'getQueryRows'
+1422583269201	Rename method 'deleteRow'
+1422709155333	Rename method 'delete'
