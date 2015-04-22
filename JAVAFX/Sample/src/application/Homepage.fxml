@@ -15,7 +15,7 @@
                <children>
                   <Button layoutX="15.0" layoutY="26.0" mnemonicParsing="false" onAction="#Employee" prefHeight="70.0" prefWidth="169.0" text="Employee" />
                   <Button layoutX="17.0" layoutY="102.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Billing" />
-                  <Button layoutX="17.0" layoutY="180.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Contacts" />
+                  <Button layoutX="17.0" layoutY="180.0" mnemonicParsing="false" onAction="#Contact" prefHeight="70.0" prefWidth="169.0" text="Contacts" />
                   <Button layoutX="17.0" layoutY="260.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Events" />
                   <Button layoutX="17.0" layoutY="341.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Inventory" />
                </children>

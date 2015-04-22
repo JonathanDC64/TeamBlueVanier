@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_Employee">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_Contact">
    <center>
       <BorderPane prefHeight="437.0" prefWidth="685.0" BorderPane.alignment="CENTER">
          <left>
@@ -26,9 +26,9 @@
                <children>
                   <Label layoutX="14.0" layoutY="406.0" text="Created by Vanier Blue Team" />
                   <Label layoutX="412.0" layoutY="406.0" text="Version 1.0" />
-                  <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee" />
-                  <ListView layoutX="14.0" layoutY="64.0" prefHeight="311.0" prefWidth="170.0" />
-                  <Button layoutX="217.0" layoutY="64.0" mnemonicParsing="false" onAction="#Profile" prefHeight="86.0" prefWidth="114.0" text="Add" />
+                  <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" />
+                  <ListView layoutX="14.0" layoutY="64.0" prefHeight="142.0" prefWidth="170.0" />
+                  <Button layoutX="217.0" layoutY="64.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Add" />
                   <Button layoutX="343.0" layoutY="64.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Edit" />
                   <Button layoutX="343.0" layoutY="176.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Find" />
                   <Button layoutX="217.0" layoutY="176.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Delete" />
@@ -44,6 +44,9 @@
                       </ImageView>
                     </graphic>
                   </Button>
+                  <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suppliers" />
+                  <Text layoutX="14.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customers" />
+                  <ListView layoutX="14.0" layoutY="233.0" prefHeight="142.0" prefWidth="170.0" />
                </children>
             </Pane>
          </center>
