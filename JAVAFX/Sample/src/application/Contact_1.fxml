@@ -28,7 +28,7 @@
                   <Label layoutX="412.0" layoutY="406.0" text="Version 1.0" />
                   <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact" />
                   <ListView layoutX="14.0" layoutY="64.0" prefHeight="142.0" prefWidth="170.0" />
-                  <Button layoutX="217.0" layoutY="64.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Add" />
+                  <Button layoutX="217.0" layoutY="64.0" mnemonicParsing="false" onAction="#showCustomerProfile" prefHeight="86.0" prefWidth="114.0" text="Add" />
                   <Button layoutX="343.0" layoutY="64.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Edit" />
                   <Button layoutX="343.0" layoutY="176.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Find" />
                   <Button layoutX="217.0" layoutY="176.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="114.0" text="Delete" />

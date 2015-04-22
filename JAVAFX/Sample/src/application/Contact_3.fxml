@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller_Contact">
+   <center>
+      <BorderPane prefHeight="437.0" prefWidth="685.0" BorderPane.alignment="CENTER">
+         <left>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button layoutX="15.0" layoutY="26.0" mnemonicParsing="false" onAction="#Employee" prefHeight="70.0" prefWidth="169.0" text="Employee" />
+                  <Button layoutX="17.0" layoutY="102.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Billing" />
+                  <Button layoutX="17.0" layoutY="180.0" mnemonicParsing="false" onAction="#Contact" prefHeight="70.0" prefWidth="169.0" text="Contacts" />
+                  <Button layoutX="17.0" layoutY="260.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Events" />
+                  <Button layoutX="17.0" layoutY="341.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Inventory" />
+               </children>
+            </Pane>
+         </left>
+         <center>
+            <Pane id="EmployeePicture" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="14.0" layoutY="406.0" text="Created by Vanier Blue Team" />
+                  <Label layoutX="412.0" layoutY="406.0" text="Version 1.0" />
+                  <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact info" />
+                  
+                  <Button layoutX="415.0" layoutY="20.0" onAction="#Home">
+                    <graphic>
+                      <ImageView fitHeight="23.0" fitWidth="23.0">
+                         <image>
+                           <Image url="File:Images/Home.png" />
+                         </image>
+                      </ImageView>
+                    </graphic>
+                  </Button>
+                  <Text layoutX="11.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" />
+                  <Text layoutX="215.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
+                  <Text layoutX="15.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
+                  <Text layoutX="215.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postal Code" />
+                  <TextField layoutX="81.0" layoutY="58.0" prefHeight="25.0" prefWidth="128.0" />
+                  <TextField layoutX="284.0" layoutY="58.0" prefHeight="25.0" prefWidth="128.0" />
+                  <TextField layoutX="80.0" layoutY="93.0" prefHeight="25.0" prefWidth="129.0" />
+                  <TextField layoutX="284.0" layoutY="93.0" prefHeight="25.0" prefWidth="129.0" />
+                  <Text layoutX="14.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Province" />
+                  <Text layoutX="25.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                  <TextField layoutX="82.0" layoutY="191.0" prefHeight="25.0" prefWidth="125.0" />
+                  <TextField layoutX="284.0" layoutY="128.0" prefHeight="25.0" prefWidth="128.0" />
+                  <Text layoutX="236.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" />
+                  <Text layoutX="5.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home Phone" />
+                  <TextField layoutX="81.0" layoutY="159.0" prefHeight="25.0" prefWidth="127.0" />
+                  <Text layoutX="220.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CellPhone" />
+                  <TextField layoutX="285.0" layoutY="159.0" prefHeight="25.0" prefWidth="128.0" />
+                  <ComboBox layoutX="81.0" layoutY="128.0" prefHeight="25.0" prefWidth="127.0" promptText="..." />
+                  <ListView layoutX="40.0" layoutY="286.0" prefHeight="113.0" prefWidth="260.0" />
+                  <Text layoutX="39.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Associated Events" />
+                  <Button layoutX="325.0" layoutY="286.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add" />
+                  <Button layoutX="325.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Edit" />
+                  <Button layoutX="325.0" layoutY="345.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Delete" />
+                  <Button layoutX="325.0" layoutY="375.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Print" />
+                  <Text layoutX="7.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID: 0" />
+                  <RadioButton layoutX="164.0" layoutY="14.0" mnemonicParsing="false" onAction="#showSupplierProfile" text="Supplier Profile" />
+                  <RadioButton layoutX="278.0" layoutY="14.0" mnemonicParsing="false" selected="true" text="Customer Profile" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

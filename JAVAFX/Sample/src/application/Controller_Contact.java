@@ -26,6 +26,20 @@ public class Controller_Contact implements Initializable{
 		layoutloader.loadTabParent(3,event);
 	}
 	
+	public void showCustomerProfile(ActionEvent event) throws IOException {
+		//If Add button is clicked at Contact Page, or if Customer radio button is clicked during the Add session (Supplier must be visible first tho)
+		//Also for Edit,Delete,Find - However only after the query for the person was successful
+		System.out.println("Going to Contact Profile");		
+		
+		layoutloader.loadLayout("Contact_3.fxml",event);
+	}
+	
+	public void showSupplierProfile(ActionEvent event) throws IOException {
+		//If Supplier button is clicked during the Add session
+		System.out.println("Going to Supplier Profile");		
+		
+		layoutloader.loadLayout("Contact_4.fxml",event);
+	}
 	//--------------------------------------------------
 	/* Method requested by eclipse in order to compile */
 	@Override
