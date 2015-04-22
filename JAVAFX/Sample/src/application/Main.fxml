@@ -13,8 +13,8 @@
          <children>
             <Text layoutX="112.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login" />
             <Text layoutX="79.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Login Credentials" />
-            <TextField id="username" layoutX="66.0" layoutY="203.0" promptText="Username" />
-            <TextField id="password" layoutX="66.0" layoutY="237.0" promptText="Password" />
+            <TextField layoutX="66.0" layoutY="203.0" promptText="Username" />
+            <TextField layoutX="66.0" layoutY="237.0" promptText="Password" />
             <Button layoutX="107.0" layoutY="336.0" mnemonicParsing="false" onAction="#Login" prefHeight="36.0" prefWidth="67.0" text="Login" />
             <ImageView fitHeight="106.0" fitWidth="84.0" layoutX="112.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -23,7 +23,7 @@
             </ImageView>
             <CheckBox layoutX="79.0" layoutY="284.0" mnemonicParsing="false" text="View Password" />
             <CheckBox layoutX="79.0" layoutY="309.0" mnemonicParsing="false" text="Change Password" />
-            <Button layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#Clear" text="Clear" />
+            <Button layoutX="14.0" layoutY="400.0" mnemonicParsing="false" text="Clear" />
             <Text layoutX="117.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vanier Team Blue Version 1.0" />
          </children>
       </Pane>
