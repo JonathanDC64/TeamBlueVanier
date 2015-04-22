@@ -54,7 +54,7 @@ public class LayoutLoader {
 			break;
 		case 4:
 			System.out.println("Going to Event");
-			loadLayout(".fxml",event);
+			loadLayout("Events_3.fxml",event);
 			break;
 		case 5:
 			System.out.println("Going to Inventory");

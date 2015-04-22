@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <left>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button layoutX="15.0" layoutY="8.0" mnemonicParsing="false" onAction="#Employee" prefHeight="70.0" prefWidth="169.0" text="Employee" />
+                  <Button layoutX="17.0" layoutY="84.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Billing" />
+                  <Button layoutX="17.0" layoutY="162.0" mnemonicParsing="false" onAction="#Contact" prefHeight="70.0" prefWidth="169.0" text="Contacts" />
+                  <Button layoutX="17.0" layoutY="242.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Events" />
+                  <Button layoutX="17.0" layoutY="323.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" text="Inventory" />
+               </children>
+            </Pane>
+         </left>
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView layoutX="12.0" layoutY="183.0" prefHeight="135.0" prefWidth="376.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Id" />
+                      <TableColumn prefWidth="75.0" text="Name" />
+                        <TableColumn prefWidth="75.0" text="Desc." />
+                        <TableColumn prefWidth="75.0" text="Quantity" />
+                        <TableColumn prefWidth="75.0" text="Price" />
+                    </columns>
+                  </TableView>
+                  <Text layoutX="12.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Id" />
+                  <Text layoutX="12.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Id" />
+                  <Text layoutX="13.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Name" />
+                  <Text layoutX="13.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Location" />
+                  <Text layoutX="15.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Date" />
+                  <Text layoutX="199.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Time" />
+                  <TextArea layoutX="97.0" layoutY="59.0" prefHeight="24.0" prefWidth="262.0" />
+                  <TextArea layoutX="97.0" layoutY="95.0" prefHeight="24.0" prefWidth="262.0" />
+                  <TextArea layoutX="97.0" layoutY="132.0" prefHeight="24.0" prefWidth="96.0" />
+                  <TextArea layoutX="263.0" layoutY="132.0" prefHeight="24.0" prefWidth="96.0" />
+                  <Text layoutX="16.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Items" />
+                  <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="352.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                  	<image>
+                    	<Image url="File:Images/Home.png" />
+                    </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>
