@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+   <center>
+      <Pane prefHeight="439.0" prefWidth="280.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="112.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login" />
+            <Text layoutX="79.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Login Credentials" />
+            <TextField layoutX="66.0" layoutY="203.0" promptText="Username" />
+            <TextField layoutX="66.0" layoutY="237.0" promptText="Password" />
+            <Button layoutX="107.0" layoutY="336.0" mnemonicParsing="false" onAction="#Login" prefHeight="36.0" prefWidth="67.0" text="Login" />
+            <ImageView fitHeight="106.0" fitWidth="84.0" layoutX="112.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="File:Images/Logo.png" />
+               </image>
+            </ImageView>
+            <CheckBox layoutX="79.0" layoutY="284.0" mnemonicParsing="false" text="View Password" />
+            <CheckBox layoutX="79.0" layoutY="309.0" mnemonicParsing="false" text="Change Password" />
+            <Button layoutX="223.0" layoutY="403.0" mnemonicParsing="false" text="Clear" />
+            <Text layoutX="1.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by Vanier Team Blue" />
+            <Text layoutX="1.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 2.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
