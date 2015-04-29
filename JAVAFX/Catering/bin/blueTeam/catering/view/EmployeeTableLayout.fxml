@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="178.0" prefWidth="232.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="blueTeam.catering.view.EmployeeTableController">
+	<children>
+		<TextField id="search" layoutX="14.0" layoutY="7.0"
+			prefHeight="25.0" prefWidth="340.0" promptText="Search" />
+		<TableView fx:id="employeeTable" layoutX="14.0" layoutY="39.0"
+			prefHeight="311.0" prefWidth="695.0">
+			<columns>
+				<TableColumn fx:id="employeeIdColumn" prefWidth="27.000003814697266"
+					text="ID" />
+				<TableColumn fx:id="firstNameColumn" minWidth="0.0"
+					prefWidth="69.99999237060547" text="First Name" />
+				<TableColumn fx:id="lastNameColumn" prefWidth="73.66667175292969"
+					text="Last Name" />
+				<TableColumn fx:id="addressColumn" prefWidth="63.99998474121094"
+					text="Address" />
+				<TableColumn fx:id="postalCodeColumn" prefWidth="73.33334350585938"
+					text="Postal Code" />
+				<TableColumn fx:id="provinceColumn" prefWidth="68.33331298828125"
+					text="Province" />
+				<TableColumn fx:id="emailColumn" prefWidth="53.0" text="Email" />
+				<TableColumn fx:id="homePhoneColumn" prefWidth="68.99996948242188"
+					text="Home #" />
+				<TableColumn fx:id="cellPhoneColumn" prefWidth="56.0"
+					text="Cell #" />
+				<TableColumn fx:id="positionColumn" prefWidth="66.66668701171875"
+					text="Position" />
+				<TableColumn fx:id="payColumn" prefWidth="69.66668701171875"
+					text="Pay/hr" />
+			</columns>
+		</TableView>
+		<Button id="add_btn" layoutX="127.0" layoutY="366.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Add" />
+		<Button id="delete_btn" layoutX="370.0" layoutY="366.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Delete" />
+		<Button id="edit_btn" layoutX="248.0" layoutY="366.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Edit" />
+		<Button id="apply_btn" layoutX="603.0" layoutY="400.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Apply" />
+		<Button id="printReport_btn" layoutX="492.0" layoutY="366.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0" text="Print Report" />
+		<SplitMenuButton id="filter" layoutX="369.0" layoutY="7.0"
+			mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0" text="Filter...">
+			<items>
+				<MenuItem mnemonicParsing="false" text="Action 1" />
+				<MenuItem mnemonicParsing="false" text="Action 2" />
+			</items>
+		</SplitMenuButton>
+		<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Created by Vanier Team Blue" />
+		<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Version 2.0" />
+	</children>
+</AnchorPane>

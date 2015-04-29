@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0"
+	prefWidth="722.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="blueTeam.catering.view.EmployeeTableController">
+	<center>
+		<Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<children>
+				<TabPane prefHeight="468.0" prefWidth="722.0"
+					tabClosingPolicy="UNAVAILABLE">
+					<tabs>
+						<Tab id="employee_tab_id" text="Employees">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField id="search" layoutX="14.0" layoutY="7.0"
+											prefHeight="25.0" prefWidth="340.0" promptText="Search" />
+										<TableView fx:id="employeeTable" layoutX="14.0"
+											layoutY="39.0" prefHeight="311.0" prefWidth="695.0">
+											<columns>
+												<TableColumn prefWidth="27.000003814697266"
+													text="ID" />
+												<TableColumn fx:id="firstNameColumn" minWidth="0.0"
+													prefWidth="69.99999237060547" text="First Name" />
+												<TableColumn fx:id="lastNameColumn" prefWidth="73.66667175292969"
+													text="Last Name" />
+												<TableColumn fx:id="addressColumn" prefWidth="63.99998474121094"
+													text="Address" />
+												<TableColumn fx:id="postalCodeColumn" prefWidth="73.33334350585938"
+													text="Postal Code" />
+												<TableColumn fx:id="provinceColumn" prefWidth="68.33331298828125"
+													text="Province" />
+												<TableColumn fx:id="emailColumn" prefWidth="53.0"
+													text="Email" />
+												<TableColumn fx:id="homePhoneColumn" prefWidth="68.99996948242188"
+													text="Home #" />
+												<TableColumn fx:id="cellPhoneColumn" prefWidth="56.0"
+													text="Cell #" />
+												<TableColumn fx:id="positionColumn" prefWidth="66.66668701171875"
+													text="Position" />
+												<TableColumn fx:id="payColumn" prefWidth="69.66668701171875"
+													text="Pay/hr" />
+											</columns>
+										</TableView>
+										<Button id="add_btn" layoutX="127.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Add" />
+										<Button id="delete_btn" layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button id="edit_btn" layoutX="248.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Edit" />
+										<Button id="apply_btn" layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button id="printReport_btn" layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton id="filter" layoutX="369.0"
+											layoutY="7.0" mnemonicParsing="false" prefHeight="25.0"
+											prefWidth="340.0" text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab id="bill_tab_id" text="Billing">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField layoutX="14.0" layoutY="7.0" prefHeight="25.0"
+											prefWidth="340.0" promptText="Search" />
+										<TableView layoutX="14.0" layoutY="39.0" prefHeight="311.0"
+											prefWidth="695.0">
+											<columns>
+												<TableColumn fx:id="billIdColumn" prefWidth="82.0"
+													text="Bill ID" />
+												<TableColumn fx:id="paymentStatusColumn"
+													minWidth="0.0" prefWidth="135.0" text="Payment Status" />
+												<TableColumn fx:id="amountColumn" prefWidth="119.0"
+													text="Amount" />
+												<TableColumn prefWidth="125.0" text="Due Date" />
+												<TableColumn prefWidth="110.0" text="Customer ID" />
+												<TableColumn prefWidth="122.0" text="Event ID" />
+											</columns>
+										</TableView>
+										<Button layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton layoutX="369.0" layoutY="7.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0"
+											text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab id="customer_tab_id" text="Customers">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField layoutX="14.0" layoutY="7.0" prefHeight="25.0"
+											prefWidth="340.0" promptText="Search" />
+										<TableView layoutX="14.0" layoutY="39.0" prefHeight="311.0"
+											prefWidth="695.0">
+											<columns>
+												<TableColumn prefWidth="76.33333587646484" text="Customer ID" />
+												<TableColumn minWidth="0.0" prefWidth="82.33332824707031"
+													text="First Name" />
+												<TableColumn prefWidth="75.0" text="Last Name" />
+												<TableColumn prefWidth="66.0" text="Address" />
+												<TableColumn prefWidth="78.0" text="Postal Code" />
+												<TableColumn prefWidth="69.66665649414062" text="Province" />
+												<TableColumn prefWidth="44.333343505859375"
+													text="City" />
+												<TableColumn prefWidth="81.66668701171875" text="Home #" />
+												<TableColumn prefWidth="65.33331298828125" text="Cell #" />
+												<TableColumn prefWidth="52.0" text="Email" />
+											</columns>
+										</TableView>
+										<Button layoutX="127.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Add" />
+										<Button layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button layoutX="248.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Edit" />
+										<Button layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton layoutX="369.0" layoutY="7.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0"
+											text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+										<Button layoutX="330.0" layoutY="402.0"
+											mnemonicParsing="false" text="Copy Emails" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab id="supplier_tab_id" text="Suppliers">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField layoutX="14.0" layoutY="7.0" prefHeight="25.0"
+											prefWidth="340.0" promptText="Search" />
+										<TableView layoutX="14.0" layoutY="39.0" prefHeight="311.0"
+											prefWidth="695.0">
+											<columns>
+												<TableColumn prefWidth="71.0" text="Supplier ID" />
+												<TableColumn minWidth="0.0" prefWidth="140.0"
+													text="Name" />
+												<TableColumn prefWidth="141.0" text="Address" />
+												<TableColumn prefWidth="83.0" text="Postal Code" />
+												<TableColumn prefWidth="58.0" text="Province" />
+												<TableColumn prefWidth="94.0" text="City" />
+												<TableColumn prefWidth="107.0" text="Phone Number" />
+											</columns>
+										</TableView>
+										<Button layoutX="127.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Add" />
+										<Button layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button layoutX="248.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Edit" />
+										<Button layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton layoutX="369.0" layoutY="7.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0"
+											text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab id="event_tab_id" text="Events">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField layoutX="14.0" layoutY="7.0" prefHeight="25.0"
+											prefWidth="340.0" promptText="Search" />
+										<TableView layoutX="14.0" layoutY="39.0" prefHeight="311.0"
+											prefWidth="695.0">
+											<columns>
+												<TableColumn prefWidth="59.0" text="Event ID" />
+												<TableColumn minWidth="0.0" prefWidth="81.0"
+													text="Event Name" />
+												<TableColumn prefWidth="103.0" text="Event Location" />
+												<TableColumn prefWidth="74.0" text="Event Date" />
+												<TableColumn prefWidth="75.0" text="Event Time" />
+												<TableColumn prefWidth="144.0" text="Customer ID" />
+												<TableColumn prefWidth="69.0" text="Quantity" />
+												<TableColumn prefWidth="89.0" text="SupplierID" />
+											</columns>
+										</TableView>
+										<Button layoutX="127.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Add" />
+										<Button layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button layoutX="248.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Edit" />
+										<Button layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton layoutX="369.0" layoutY="7.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0"
+											text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+						<Tab id="inventory_tab_id" text="Inventory">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0">
+									<children>
+										<TextField layoutX="14.0" layoutY="7.0" prefHeight="25.0"
+											prefWidth="340.0" promptText="Search" />
+										<TableView layoutX="14.0" layoutY="39.0" prefHeight="311.0"
+											prefWidth="695.0">
+											<columns>
+												<TableColumn prefWidth="59.0" text="Item ID" />
+												<TableColumn minWidth="0.0" prefWidth="114.0"
+													text="Item Name" />
+												<TableColumn prefWidth="127.0" text="Item Description" />
+												<TableColumn prefWidth="60.0" text="Price" />
+												<TableColumn prefWidth="61.0" text="Cost" />
+												<TableColumn prefWidth="115.0" text="Category" />
+												<TableColumn prefWidth="69.0" text="Quantity" />
+												<TableColumn prefWidth="89.0" text="Supplier ID" />
+											</columns>
+										</TableView>
+										<Button layoutX="127.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Add" />
+										<Button layoutX="370.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Delete" />
+										<Button layoutX="248.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Edit" />
+										<Button layoutX="603.0" layoutY="400.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0"
+											text="Apply" />
+										<Button layoutX="492.0" layoutY="366.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="104.0"
+											text="Print Report" />
+										<SplitMenuButton layoutX="369.0" layoutY="7.0"
+											mnemonicParsing="false" prefHeight="25.0" prefWidth="340.0"
+											text="Filter...">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Action 1" />
+												<MenuItem mnemonicParsing="false" text="Action 2" />
+											</items>
+										</SplitMenuButton>
+										<Text layoutX="5.0" layoutY="419.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Created by Vanier Team Blue" />
+										<Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE"
+											strokeWidth="0.0" text="Version 2.0" />
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+					</tabs>
+				</TabPane>
+			</children>
+		</Pane>
+	</center>
+</BorderPane>
