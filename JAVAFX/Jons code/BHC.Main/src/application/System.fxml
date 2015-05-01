@@ -15,12 +15,12 @@
               <content>
                 <AnchorPane id="employee_pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <HBox layoutX="14.0" layoutY="8.0" prefHeight="25.0" prefWidth="700.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="8.0">
+                        <HBox layoutX="14.0" layoutY="8.0" prefHeight="25.0" prefWidth="700.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                            <children>
                                  <TextField fx:id="employeeSearchField" layoutX="14.0" layoutY="8.0" prefHeight="25.0" prefWidth="341.0" promptText="Search" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <HBox layoutX="14.0" layoutY="38.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="38.0">
+                        <HBox layoutX="14.0" layoutY="38.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="38.0">
                            <children>
                                  <TableView id="employee_table" fx:id="Table_Employee" layoutX="14.0" layoutY="38.0" prefHeight="300.0" prefWidth="350.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="38.0" HBox.hgrow="ALWAYS" />
                                  <TableView fx:id="employeeInformationTable" layoutX="359.0" layoutY="38.0" prefHeight="300.0" prefWidth="350.0" AnchorPane.bottomAnchor="89.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="38.0" HBox.hgrow="ALWAYS">
@@ -30,7 +30,7 @@
                               </TableView>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" layoutX="14.0" layoutY="365.0" prefHeight="25.0" prefWidth="700.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="8.0">
+                        <HBox alignment="CENTER" layoutX="14.0" layoutY="365.0" prefHeight="25.0" prefWidth="700.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                            <children>
                                  <Button fx:id="addEmployee" layoutX="72.0" layoutY="366.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Add Employee" HBox.hgrow="ALWAYS" />
                                  <Button fx:id="editEmployee" layoutX="209.0" layoutY="365.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Edit Employee" HBox.hgrow="ALWAYS">
