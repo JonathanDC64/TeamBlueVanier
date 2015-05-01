@@ -24,7 +24,7 @@ public class MainController implements Initializable{
 		Stage layout_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		layout_stage.setScene(layout_scene);
 		layout_stage.show();
-		
+		layout_stage.setResizable(true);
 		Rectangle2D Bounds = Screen.getPrimary().getVisualBounds();
 		layout_stage.setX((Bounds.getWidth() - layout_stage.getWidth()) / 2); 
 		layout_stage.setY((Bounds.getHeight() - layout_stage.getHeight()) / 4);

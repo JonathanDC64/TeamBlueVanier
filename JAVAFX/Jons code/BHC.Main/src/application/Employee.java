@@ -1,6 +1,16 @@
 package application;
 
 public class Employee {
+	@Override
+	public String toString() {
+		return "Employee [ID=" + ID + ", FirstName=" + FirstName
+				+ ", LastName=" + LastName + ", Address=" + Address
+				+ ", PostalCode=" + PostalCode + ", Province=" + Province
+				+ ", Email=" + Email + ", HomePhoneNumber=" + HomePhoneNumber
+				+ ", CellPhoneNumber=" + CellPhoneNumber + ", Position="
+				+ Position + ", Salary=" + Salary + "]";
+	}
+
 	int ID;
 	String FirstName;
 	String LastName;
