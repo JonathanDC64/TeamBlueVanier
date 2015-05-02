@@ -1,29 +1,33 @@
 package application;
 
-import java.awt.Container;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import Printing.Print;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+
+import javax.swing.JOptionPane;
+
+import Printing.Print;
 import dbconnector.database.DBConnector;
 
 public class EmployeeController implements Runnable
 {
 
 	private DBConnector database;
+	//private AnchorPane employeePane;
 	private TableView<Value> employeeInformationTable;
 	private TableView<Employee> Table_Employee;
 	private Button addEmployee;
@@ -48,6 +52,7 @@ public class EmployeeController implements Runnable
 			TextField employeeSearchField) {
 		super();
 		this.database = database;
+		
 		this.employeeInformationTable = employeeInformationTable;
 		Table_Employee = table_Employee;
 		this.addEmployee = addEmployee;
@@ -64,6 +69,9 @@ public class EmployeeController implements Runnable
 	@Override
 	public void run() 
 	{
+		
+		
+		
 		TableColumn<Employee, Integer> Column_ID = new TableColumn<Employee, Integer>("ID");
 		//Column_ID.setMinWidth(Math.floor(Table_Employee.getWidth()/3.0));
 		Column_ID.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("ID"));
@@ -78,16 +86,6 @@ public class EmployeeController implements Runnable
 		//Column_LastName.setMinWidth(Math.floor(Table_Employee.getWidth()/3.0));
 		Column_LastName.setCellValueFactory(new PropertyValueFactory<Employee, String>("LastName"));
 
-		
-		
-		/*String[][] employeeTableData = database.select(		"SELECT Employee.EmployeeID, Person.FirstName, Person.LastName "
-														+ 	"FROM Employee, Person where Person.PersonID = Employee.PersonID;");
-		ObservableList<Employee> values = FXCollections.observableArrayList();
-		for(int i = 0 ; i < employeeTableData.length ; i++)
-		{
-			values.add(new Employee(Integer.parseInt(employeeTableData[i][0]),employeeTableData[i][1],employeeTableData[i][2],null,null,null,null,null,null,null,0.0));
-		}
-		*/
 		
 		Table_Employee.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
 		//Table_Employee.setItems(values);
@@ -161,8 +159,12 @@ public class EmployeeController implements Runnable
 			@Override
 			public void handle(MouseEvent arg0) 
 			{
-				
-				
+				if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?") == 0)
+				{
+					Employee employee = (Employee) Table_Employee.getSelectionModel().getSelectedItem();
+					database.delete("Employee", "EmployeeID", Integer.toString(employee.getID()));
+					refreshData();
+				}
 			}
 	
 		});
@@ -202,9 +204,6 @@ public class EmployeeController implements Runnable
 	{
 		if(employeeData == null) 
 			return null;
-		System.out.println();
-		System.out.println("searching: ");
-		System.out.println();
 		ArrayList<ArrayList<String>> searchResult = new ArrayList<ArrayList<String>>();
 		for(int i = 0 ; i < employeeData.length ; i++)
 		{
