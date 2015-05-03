@@ -9,14 +9,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 
 import javax.swing.JOptionPane;
 
@@ -37,7 +35,7 @@ public class EmployeeController implements Runnable
 	private TextField employeeSearchField;
 	
 	String fullSQL = 
-			"SELECT employee.EmployeeID, Person.FirstName, Person.LastName, Location.Address, "
+			  "SELECT employee.EmployeeID, Person.FirstName, Person.LastName, Location.Address, "
             + "Location.PostalCode, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber, employee.Position, employee.Wage " 
             + "FROM Employee, Person, Location "
             + "WHERE Person.PersonID = employee.PersonID and Location.LocationID = Person.LocationID";
@@ -66,6 +64,7 @@ public class EmployeeController implements Runnable
 
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void run() 
 	{
@@ -265,6 +264,8 @@ public class EmployeeController implements Runnable
 					Double.parseDouble(data[i][10])));
 			
 		}
+		//Table_Employee.setStyle("-fx-font-size: 18");
+		
 		//System.out.println(Arrays.toString(values.toArray()));
 		return values;
 	}

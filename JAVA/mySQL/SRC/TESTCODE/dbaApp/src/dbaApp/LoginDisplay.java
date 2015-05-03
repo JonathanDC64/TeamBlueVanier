@@ -155,21 +155,7 @@ public class LoginDisplay extends JFrame {
 		
 		
 		
-		try {
-			File infoFile = new File("login.prop");
-			Scanner s = new Scanner(infoFile);
-			if(s.nextLine().equals("1"))
-			{
-				hostTextField.setText(s.nextLine());
-				sidTextField.setText(s.nextLine());
-				usernameTextField.setText(s.nextLine());
-				passwordField.setText(s.nextLine());
-				chckbxRememberInfo.setSelected(true);
-			}
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		
 	}
 

@@ -22,6 +22,7 @@ public class Main extends Application implements Initializable{
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
 			Scene scene = new Scene(root,280,439);

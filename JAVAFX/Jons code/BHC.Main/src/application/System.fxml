@@ -246,4 +246,24 @@
          </children>
       </AnchorPane>
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="User Guide" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Options">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Font Size">
+                     <graphic>
+                        <Slider fx:id="fontSizeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="25.0" min="14.0" minorTickCount="1" nodeOrientation="LEFT_TO_RIGHT" snapToTicks="true" value="8.0" />
+                     </graphic>
+                  </MenuItem>
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>
