@@ -3,7 +3,7 @@ package application;
 public class Employee {
 	@Override
 	public String toString() {
-		return "Employee [ID=" + ID + ", FirstName=" + FirstName
+		return "Employee [ID=" + EmployeeID + ", FirstName=" + FirstName
 				+ ", LastName=" + LastName + ", Address=" + Address
 				+ ", PostalCode=" + PostalCode + ", Province=" + Province
 				+ ", Email=" + Email + ", HomePhoneNumber=" + HomePhoneNumber
@@ -11,7 +11,7 @@ public class Employee {
 				+ Position + ", Salary=" + Salary + "]";
 	}
 
-	int ID;
+	String EmployeeID;
 	String FirstName;
 	String LastName;
 	String Address;
@@ -21,10 +21,10 @@ public class Employee {
 	String HomePhoneNumber;
 	String CellPhoneNumber;
 	String Position;
-	double Salary;
+	String Salary;
 	
 	public Employee(){
-		this.ID = 0;
+		this.EmployeeID = "";
 		this.FirstName = "";
 		this.LastName = "";
 		this.Address = "";
@@ -34,11 +34,11 @@ public class Employee {
 		this.HomePhoneNumber = "";
 		this.CellPhoneNumber = "";
 		this.Position = "";
-		this.Salary = 0;
+		this.Salary = "";
 	}
 	
-	public Employee(int ID,	String FirstName, String LastName, String Address, String PostalCode, String Province, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, double Salary){
-		this.ID = ID;
+	public Employee(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, String Salary){
+		this.EmployeeID = ID;
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.Address = Address;
@@ -51,12 +51,12 @@ public class Employee {
 		this.Salary = Salary;
 	}
 
-	public int getID() {
-		return ID;
+	public String getEmployeeID() {
+		return EmployeeID;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
+	public void setEmployeeID(String EmployeeID) {
+		this.EmployeeID = EmployeeID;
 	}
 
 	public String getFirstName() {
@@ -146,11 +146,11 @@ public class Employee {
 		Position = position;
 	}
 
-	public double getSalary() {
+	public String getSalary() {
 		return Salary;
 	}
 
-	public void setSalary(double salary) {
+	public void setSalary(String salary) {
 		Salary = salary;
 	}
 }

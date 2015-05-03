@@ -1,11 +1,7 @@
 package application;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.util.Optional;
-
-import javax.swing.JFrame;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,34 +14,33 @@ import javafx.scene.control.TextField;
 import Printing.Print;
 import dbconnector.database.DBConnector;
 
-public class EmployeeController extends MainView<Employee> implements Runnable
+public class CustomerController extends MainView<Customer> implements Runnable
 {
-	private TableView<Employee> leftTable; 
+	private TableView<Customer> leftTable; 
 	private TableView<Value> rightTable; 
 	private Button addButton; 
 	private Button editButton; 
-	
 	private Button deleteButton; 
 	private Button printButton;
 	
 	
-	public EmployeeController(DBConnector database, TableView<Employee> leftTable,TableView<Value> rightTable, Button addButton, Button editButton, Button deleteButton,Button printButton, TextField searchField) 
+	public CustomerController(DBConnector database, TableView<Customer> leftTable,TableView<Value> rightTable, Button addButton, Button editButton, Button deleteButton,Button printButton, TextField searchField) 
 	{
 		super(
 				database,
 				fSQL,
 				"",
 				leftTable,
-				new String[]{"Employee ID", "First Name", "Last Name"},
+				new String[]{"Customer ID", "First Name", "Last Name"},
 				rightTable,
 				addButton,
-				"Add Employee",
+				"Add Customer",
 				editButton,
-				"Edit Employee",
+				"Edit Customer",
 				deleteButton,
-				"Delete Employee",
+				"Delete Customer",
 				printButton,
-				"Print Employee Info",
+				"Print Customer Info",
 				searchField);
 		this.leftTable = leftTable;
 		this.rightTable = rightTable;
@@ -55,18 +50,17 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 		this.printButton = printButton;
 		
 		columnNames = new String[]{
-				"Employee ID","First Name","Last Name", 
+				"Customer ID","First Name","Last Name", 
 				"Address","Postal Code","Province",
-				"Email","Home Phone Number","Cell Phone Number",
-				"Position","Salary"
+				"Email","Home Phone Number","Cell Phone Number"
 				};
 	}
 
 	private static String fSQL = 
-			"SELECT employee.EmployeeID, Person.FirstName, Person.LastName, Location.Address, "
-          + "Location.PostalCode, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber, employee.Position, employee.Wage " 
-          + "FROM Employee, Person, Location "
-          + "WHERE Person.PersonID = employee.PersonID and Location.LocationID = Person.LocationID";
+			"SELECT Customer.CustomerID, Person.FirstName, Person.LastName, Location.Address, "
+          + "Location.PostalCode, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber " 
+          + "FROM Customer, Person, Location "
+          + "WHERE Person.PersonID = Customer.PersonID and Location.LocationID = Person.LocationID";
 	
 	
 	
@@ -74,15 +68,15 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 	public void run() {}
 
 	@Override
-	public ObservableList<Employee> arrayToObservableList(String[][] data) {
+	public ObservableList<Customer> arrayToObservableList(String[][] data) {
 		
-		ObservableList<Employee> values = FXCollections.observableArrayList();
+		ObservableList<Customer> values = FXCollections.observableArrayList();
 		
 		if(data == null) return null;
 		for(int i = 0 ; i < data.length ; i++)
 		{
 			
-			values.add(new Employee(
+			values.add(new Customer(
 					data[i][0],
 					data[i][1],
 					data[i][2],
@@ -91,9 +85,7 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 					data[i][5],
 					data[i][6],
 					data[i][7],
-					data[i][8],
-					data[i][9],
-					data[i][10]));
+					data[i][8]));
 			
 		}
 		return values;
@@ -111,11 +103,11 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 	{
 		try
     	{
-	        Employee employee = (Employee) leftTable.getSelectionModel().getSelectedItem();
-	        String[] employeeData = database.select(fullSQL + " and employee.EmployeeID=" + employee.getEmployeeID())[0];
+			Customer customer = (Customer) leftTable.getSelectionModel().getSelectedItem();
+	        String[] customerData = database.select(fullSQL + " and customer.CustomerID=" + customer.getCustomerID())[0];
 	        
-	        rightTable.getItems().clear();
-	        rightTable.setItems(getValues(employeeData));
+	        
+	        rightTable.setItems(getValues(customerData));
     	}
     	catch(Exception e)
     	{
@@ -147,8 +139,8 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne)
 		{
-			Employee employee = (Employee) leftTable.getSelectionModel().getSelectedItem();
-			database.delete("Employee", "EmployeeID", employee.getEmployeeID());
+			Customer customer = (Customer) leftTable.getSelectionModel().getSelectedItem();
+			database.delete("Customer", "CustomerID", customer.getCustomerID());
 			refreshData();
 		} 
 		else if (result.get() == buttonTypeTwo) 
@@ -163,9 +155,7 @@ public class EmployeeController extends MainView<Employee> implements Runnable
 	{
 		try 
 		{
-			Print.generateAndPrintReport(searchData, columnNames, "Employee Report", true);
-			
-			
+			Print.generateAndPrintReport(searchData, columnNames, "Customer Report", true);
 		} 
 		catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
