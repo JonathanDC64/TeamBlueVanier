@@ -1,17 +1,9 @@
 package application.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
 
-import org.apache.commons.lang.NumberUtils;
-import org.apache.commons.lang.StringUtils;
-
-import application.Value;
-import Printing.Print;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,17 +12,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import application.Value;
 import dbconnector.database.DBConnector;
 
 public abstract class BaseController<T>
@@ -89,14 +79,13 @@ public abstract class BaseController<T>
 	String[][] searchData;
 	
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize()
 	{	
-		TableColumn[] tableColumns = new TableColumn[leftTableColumns.length];
+		TableColumn<T, String>[] tableColumns = new TableColumn[leftTableColumns.length];
 		
 		for(int i = 0 ; i < tableColumns.length; i++)
 		{
-			TableColumn column = new TableColumn<T, String>(leftTableColumns[i]);
+			TableColumn<T, String> column = new TableColumn<T, String>(leftTableColumns[i]);
 			column.setCellValueFactory(new PropertyValueFactory<T, String>(leftTableColumns[i].replaceAll("\\s+","")));
 			tableColumns[i] = column;
 		}
@@ -116,96 +105,84 @@ public abstract class BaseController<T>
 		//setupListeners();
 	}
 	
-	private ChangeListener<String> searchListener;
-	private EventHandler<MouseEvent> displayMoreDataListener;
-	private EventHandler<MouseEvent> addListener;
-	private EventHandler<MouseEvent> editListener;
-	private EventHandler<MouseEvent> deleteListener;
-	private EventHandler<MouseEvent> printListener;
+	
+	
+	private EventHandler<MouseEvent> displayMoreDataListener = new EventHandler<MouseEvent>()
+	{
+	    @Override
+	    public void handle(MouseEvent mouseEvent)
+	    {
+	        if(mouseEvent.getButton().equals(MouseButton.PRIMARY))
+	        {
+	        	displayMoreData();
+	        }
+	    }
+	};;
+	private EventHandler<MouseEvent> addListener = new EventHandler<MouseEvent>()
+	{
+		@Override
+		public void handle(MouseEvent arg0) 
+		{
+			add();
+			
+		}
+
+	};
+	private EventHandler<MouseEvent> editListener = new EventHandler<MouseEvent>()
+	{
+		@Override
+		public void handle(MouseEvent arg0) 
+		{
+			edit();
+			
+		}
+
+	};
+	private EventHandler<MouseEvent> deleteListener = new EventHandler<MouseEvent>()
+	{
+		@Override
+		public void handle(MouseEvent arg0) 
+		{
+			delete();
+		}
+
+	}; 
+	
+	private EventHandler<MouseEvent> printListener = new EventHandler<MouseEvent>()
+	{
+		@Override
+		public void handle(MouseEvent arg0) 
+		{
+			print();
+		}
+
+	};
+	
+	private ChangeListener<String> searchListener = new ChangeListener<String>() 
+	{
+
+		@Override
+		public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+			//System.out.println(employeeSearchField.getText());
+			searchData = search(searchField.getText());
+			ObservableList<T> values = arrayToObservableList(searchData);
+			
+			leftTable.setItems(values);
+		}
+	};
+	
 	public void setupListeners()
 	{
-		
-		displayMoreDataListener = new EventHandler<MouseEvent>()
-		{
-		    @Override
-		    public void handle(MouseEvent mouseEvent)
-		    {
-		        if(mouseEvent.getButton().equals(MouseButton.PRIMARY))
-		        {
-		        	displayMoreData();
-		        }
-		    }
-		};
-		
 		leftTable.setOnMouseClicked(displayMoreDataListener);
 		
-		
-		
-		
-		
-		addListener = new EventHandler<MouseEvent>()
-		{
-			@Override
-			public void handle(MouseEvent arg0) 
-			{
-				add();
-				
-			}
-	
-		};
 		addButton.setOnMouseClicked(addListener);
-		
-		
-		
-		editListener = new EventHandler<MouseEvent>()
-		{
-			@Override
-			public void handle(MouseEvent arg0) 
-			{
-				edit();
-				
-			}
-	
-		};
 		
 		editButton.setOnMouseClicked(editListener);
 		
-		
-		deleteListener = new EventHandler<MouseEvent>()
-		{
-			@Override
-			public void handle(MouseEvent arg0) 
-			{
-				delete();
-			}
-	
-		}; 
-		
 		deleteButton.setOnMouseClicked(deleteListener);
 		
-		printListener = new EventHandler<MouseEvent>()
-		{
-			@Override
-			public void handle(MouseEvent arg0) 
-			{
-				print();
-			}
-	
-		};
 		printButton.setOnMouseClicked(printListener);
 		
-		searchListener = new ChangeListener<String>() 
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				//System.out.println(employeeSearchField.getText());
-				searchData = search(searchField.getText());
-				ObservableList<T> values = arrayToObservableList(searchData);
-				
-				leftTable.setItems(values);
-			}
-		};
 		searchField.textProperty().addListener(searchListener);
 	}
 	
@@ -224,29 +201,6 @@ public abstract class BaseController<T>
 		searchField.textProperty().removeListener(searchListener);
 		
 	}
-	
-/*	public void dereference()
-	{
-		this.database = null;
-		this.fullSQL = null;
-		this.partialSQL = null;
-		this.leftTable = null;
-		this.leftTableColumns = null;
-		this.rightTable = null;
-		this.addButton = null;
-		this.addButtonText = null;
-		this.editButton = null;
-		this.editButtonText = null;
-		this.deleteButton = null;
-		this.deleteButtonText = null;
-		this.printButton = null;
-		this.printButtonText = null;
-		this.searchField = null;
-		this.data = null;
-		this.searchData = null;
-	}*/
-	
-	
 	
 	public String[][] search(String value)
 	{
@@ -285,7 +239,12 @@ public abstract class BaseController<T>
 	
 	public void refreshData()
 	{
-		data = database.select(fullSQL);
+		try {
+			data = database.select(fullSQL);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		leftTable.setItems(arrayToObservableList(data));
 	}
 	
@@ -305,19 +264,22 @@ public abstract class BaseController<T>
 		return value;
 	}
 	
+	
+	private Stage printStage = new Stage();
 	public void printPreview()
 	{
 		
 		try {
 			
 			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("application/PrintPreview.fxml"));
-			Stage stage = new Stage();
-		    stage.setTitle("Print Preview");
-		    stage.setMinWidth(1024);
-		    stage.setMinHeight(600);
-		    stage.setScene(new Scene(root, 1024, 600));
-		    stage.show();
-		} catch (IOException e) {
+		    printStage.setTitle("Print Preview");
+		    printStage.setMinWidth(1024);
+		    printStage.setMinHeight(600);
+		    printStage.setScene(new Scene(root, 1024, 600));
+		    printStage.show();
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

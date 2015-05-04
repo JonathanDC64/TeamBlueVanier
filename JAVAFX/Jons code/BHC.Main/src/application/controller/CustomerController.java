@@ -2,6 +2,7 @@ package application.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import application.Value;
@@ -147,7 +148,12 @@ public class CustomerController extends BaseController<Customer> implements Runn
 		if (result.get() == buttonTypeOne)
 		{
 			Customer customer = (Customer) leftTable.getSelectionModel().getSelectedItem();
-			database.delete("Customer", "CustomerID", customer.getCustomerID());
+			try {
+				database.delete("Customer", "CustomerID", customer.getCustomerID());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			refreshData();
 		} 
 		else if (result.get() == buttonTypeTwo) 

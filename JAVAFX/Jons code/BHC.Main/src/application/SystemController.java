@@ -1,13 +1,8 @@
 package application;
 
-import java.lang.instrument.Instrumentation;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.controller.BaseController;
-import application.controller.CustomerController;
-import application.controller.EmployeeController;
-import application.datamodel.Employee;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +17,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import application.controller.BaseController;
+import application.controller.CustomerController;
+import application.controller.EmployeeController;
+import application.datamodel.Employee;
 import dbconnector.database.DBConnector;
 
 public class SystemController implements Initializable{
@@ -54,6 +53,7 @@ public class SystemController implements Initializable{
 	private Slider fontSizeSlider;
 	
 	
+	@SuppressWarnings("rawtypes")
 	BaseController currentTab;
 	
 	//TableView Table_Employee ;
@@ -61,7 +61,7 @@ public class SystemController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		
-	
+		
 		Platform.runLater(new Runnable()
 		{
 
@@ -91,27 +91,32 @@ public class SystemController implements Initializable{
 				final BaseController customerController = new CustomerController(database, leftTable, rightTable, addButton, editButton, deleteButton, printButton,searchField);
 				
 				
-				
 				currentTab = employeeController;
 				currentTab.initialize();
 				currentTab.setupListeners();
 				tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-					
-					
 					int employeeTab = 0, billingTab = 1, customerTab = 2,
 						supplierTab = 3,	eventTab = 4,inventoryTab = 5;
-					ObservableList<Tab> tabs = tabPane.getTabs();
 		            @Override
 		            public void changed(ObservableValue<? extends Tab> arg0, Tab arg1, Tab selectedTab) 
 		            {
+		            	ObservableList leftTableItems = leftTable.getItems();
+		            	if(leftTableItems != null)
+		            		leftTableItems.clear();
 		            	
-		            	//System.out.println("size before: \t\t" + Runtime.getRuntime().freeMemory());
-		            	leftTable.getItems().clear();
-		            	leftTable.getColumns().clear();
-		            	rightTable.getItems().clear();
+		            	ObservableList leftTableColumns = leftTable.getColumns();
+		            	if(leftTableColumns != null)
+		            		leftTableColumns.clear();
+		            	
+		            	ObservableList rightTableItems = rightTable.getItems();
+		            	if(rightTableItems != null)
+		            		rightTableItems.clear();
+		            	
 		            	currentTab.removeListeners();
 		            	
+		            	
 		            	System.gc();
+		            	Runtime.getRuntime().gc();
 		            	//System.out.println("size middle: \t\t" + Runtime.getRuntime().freeMemory());
 		            	
 	                    if(selectedTab == tabPane.getTabs().get(employeeTab)) 
@@ -151,13 +156,6 @@ public class SystemController implements Initializable{
 				});
 				
 				
-				
-				
-				
-				
-				
-				
-				@SuppressWarnings("rawtypes")
 				final TableView[] tables = {leftTable,rightTable};
 				fontSizeSlider.valueProperty().addListener( new  ChangeListener<Number>() 
 				{
@@ -171,6 +169,8 @@ public class SystemController implements Initializable{
 		            }
 
 		        });
+				
+				
 			}
 			
 		});
