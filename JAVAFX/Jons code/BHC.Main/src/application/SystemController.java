@@ -4,6 +4,10 @@ import java.lang.instrument.Instrumentation;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.controller.BaseController;
+import application.controller.CustomerController;
+import application.controller.EmployeeController;
+import application.datamodel.Employee;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,7 +54,7 @@ public class SystemController implements Initializable{
 	private Slider fontSizeSlider;
 	
 	
-	MainView currentTab;
+	BaseController currentTab;
 	
 	//TableView Table_Employee ;
 	@Override
@@ -83,8 +87,8 @@ public class SystemController implements Initializable{
 				rightTable.getColumns().addAll(Column_Field_Name,Column_Value);
 				rightTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
 				
-				final MainView employeeController = new EmployeeController(database, leftTable, rightTable, addButton, editButton, deleteButton, printButton,searchField);
-				final MainView customerController = new CustomerController(database, leftTable, rightTable, addButton, editButton, deleteButton, printButton,searchField);
+				final BaseController employeeController = new EmployeeController(database, leftTable, rightTable, addButton, editButton, deleteButton, printButton,searchField);
+				final BaseController customerController = new CustomerController(database, leftTable, rightTable, addButton, editButton, deleteButton, printButton,searchField);
 				
 				
 				
