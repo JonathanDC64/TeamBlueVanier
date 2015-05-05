@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import Printing.Print;
+import application.Main;
 import application.Value;
 import application.datamodel.Employee;
 import dbconnector.database.DBConnector;
@@ -106,9 +110,13 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 	}
 
 	@Override
-	public void add() 
+	public void add() throws IOException 
 	{
 		//refreshData();
+		AnchorPane root = (AnchorPane)FXMLLoader.load(Main.class.getResource("EmployeeEditDialog.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));  
+        stage.show();
 	}
 
 	@Override

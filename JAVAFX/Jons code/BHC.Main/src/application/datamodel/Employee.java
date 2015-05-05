@@ -5,7 +5,7 @@ public class Employee {
 	public String toString() {
 		return "Employee [ID=" + EmployeeID + ", FirstName=" + FirstName
 				+ ", LastName=" + LastName + ", Address=" + Address
-				+ ", PostalCode=" + PostalCode + ", Province=" + Province
+				+ ", PostalCode=" + PostalCode + ", City=" + City + ", Province=" + Province
 				+ ", Email=" + Email + ", HomePhoneNumber=" + HomePhoneNumber
 				+ ", CellPhoneNumber=" + CellPhoneNumber + ", Position="
 				+ Position + ", Salary=" + Salary + "]";
@@ -16,8 +16,8 @@ public class Employee {
 	String LastName;
 	String Address;
 	String PostalCode;
-	String Province;
 	String City;
+	String Province;
 	String Email;
 	String HomePhoneNumber;
 	String CellPhoneNumber;
@@ -30,8 +30,8 @@ public class Employee {
 		this.LastName = "";
 		this.Address = "";
 		this.PostalCode = "";
-		this.Province = "";
 		this.City = "";
+		this.Province = "";
 		this.Email = "";
 		this.HomePhoneNumber = "";
 		this.CellPhoneNumber = "";
@@ -39,27 +39,19 @@ public class Employee {
 		this.Salary = "";
 	}
 	
-	public Employee(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province,String City, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, String Salary){
+	public Employee(String ID,	String FirstName, String LastName, String Address, String PostalCode, String City, String Province, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, String Salary){
 		this.EmployeeID = ID;
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.Address = Address;
 		this.PostalCode = PostalCode;
-		this.Province = Province;
 		this.City = City;
+		this.Province = Province;
 		this.Email = Email;
 		this.HomePhoneNumber = HomePhoneNumber;
 		this.CellPhoneNumber = CellPhoneNumber;
 		this.Position = Position;
 		this.Salary = Salary;
-	}
-
-	public String getCity() {
-		return City;
-	}
-
-	public void setCity(String city) {
-		City = city;
 	}
 
 	public String getEmployeeID() {
@@ -117,6 +109,14 @@ public class Employee {
 		PostalCode = postalCode;
 	}
 
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+	
 	public String getProvince() {
 		return Province;
 	}

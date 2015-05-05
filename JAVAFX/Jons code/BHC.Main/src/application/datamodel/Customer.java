@@ -20,6 +20,7 @@ public class Customer {
 		this.LastName = "";
 		this.Address = "";
 		this.PostalCode = "";
+		this.City = "";
 		this.Province = "";
 		this.Email = "";
 		this.HomePhoneNumber = "";
@@ -32,8 +33,8 @@ public class Customer {
 		this.LastName = LastName;
 		this.Address = Address;
 		this.PostalCode = PostalCode;
-		this.Province = Province;
 		this.City = City;
+		this.Province = Province;
 		this.Email = Email;
 		this.HomePhoneNumber = HomePhoneNumber;
 		this.CellPhoneNumber = CellPhoneNumber;
@@ -79,6 +80,14 @@ public class Customer {
 		PostalCode = postalCode;
 	}
 
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+	
 	public String getProvince() {
 		return Province;
 	}

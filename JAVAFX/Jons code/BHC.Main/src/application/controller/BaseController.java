@@ -120,7 +120,12 @@ public abstract class BaseController<T>
 		@Override
 		public void handle(MouseEvent arg0) 
 		{
-			add();
+			try {
+				add();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
@@ -288,7 +293,7 @@ public abstract class BaseController<T>
 	}
 	
 	public abstract void displayMoreData();
-	public abstract void add();
+	public abstract void add() throws IOException;
 	public abstract void edit();
 	public abstract void delete();
 	public abstract void print();
