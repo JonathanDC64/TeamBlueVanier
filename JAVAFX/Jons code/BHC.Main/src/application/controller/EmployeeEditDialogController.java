@@ -71,29 +71,37 @@ public class EmployeeEditDialogController {
     	String[][] NewLocationID = null;
     	String[][] NewPersonID = null;
     	String[][] NewEmployeeID = null;
-
+    	int nextLocationId;
+    	int nextPersonId;
+    	int nextEmployeeId;
     	
     	try {
     		NewLocationID = database.select("select LocationID from Location orderby LocationID desc");
-    		NewPersonID = database.select("select LocationID from Location orderby LocationID desc");
-    		NewEmployeeID = database.select("select LocationID from Location orderby LocationID desc");
+    		NewPersonID = database.select("select PersonID from Person orderby PersonID desc");
+    		NewEmployeeID = database.select("select EmployeeID from Employee orderby EmployeeID desc");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
     	
-		int nextLocationId = 0;
 		if(NewLocationID != null){
 			nextLocationId = Integer.parseInt(NewLocationID[0][0]) + 1;
 		}
-		
-		int nextPersonId = 0;
-		if(NewLocationID != null){
-			nextPersonId = Integer.parseInt(NewPersonID[0][0]) + 1;
+		else{
+			nextLocationId = 0;
 		}
 		
-		int nextEmployeeId = 0;
-		if(NewLocationID != null){
+		if(NewPersonID != null){
+			nextPersonId = Integer.parseInt(NewPersonID[0][0]) + 1;
+		}
+		else{
+			nextPersonId = 0;
+		}
+		
+		if(NewEmployeeID != null){
 			nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0]) + 1;
+		}
+		else{
+			nextEmployeeId = 0;
 		}
     	
     	String FirstName = firstNameField.getText();
