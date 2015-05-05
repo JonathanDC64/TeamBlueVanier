@@ -116,6 +116,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 		AnchorPane root = (AnchorPane)FXMLLoader.load(Main.class.getResource("EmployeeEditDialog.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));  
+        stage.setResizable(false);
         stage.show();
 	}
 
