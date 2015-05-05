@@ -8,6 +8,7 @@ import dbconnector.database.DBConnector;
 
 public class DatabaseUtils 
 {
+	
 	public static void insertIntoLocation(DBConnector database, String... values)
 	{
 		insert(database, "Location", new String[]{"LocationID", "City", "Province", "Address","PostalCode"}, values);
@@ -31,7 +32,8 @@ public class DatabaseUtils
 		}
 		catch(SQLException e)
 		{
-			System.out.println(2314214);
+			
+			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("There was an error while adding");

@@ -169,13 +169,8 @@ public class SystemController implements Initializable{
 		            }
 
 		        });
-				
-				
 			}
 			
 		});
-		
-
-		
 	}
 }

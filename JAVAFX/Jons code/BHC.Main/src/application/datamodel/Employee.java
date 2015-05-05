@@ -17,6 +17,7 @@ public class Employee {
 	String Address;
 	String PostalCode;
 	String Province;
+	String City;
 	String Email;
 	String HomePhoneNumber;
 	String CellPhoneNumber;
@@ -30,6 +31,7 @@ public class Employee {
 		this.Address = "";
 		this.PostalCode = "";
 		this.Province = "";
+		this.City = "";
 		this.Email = "";
 		this.HomePhoneNumber = "";
 		this.CellPhoneNumber = "";
@@ -37,18 +39,27 @@ public class Employee {
 		this.Salary = "";
 	}
 	
-	public Employee(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, String Salary){
+	public Employee(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province,String City, String Email, String HomePhoneNumber, String CellPhoneNumber, String Position, String Salary){
 		this.EmployeeID = ID;
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.Address = Address;
 		this.PostalCode = PostalCode;
 		this.Province = Province;
+		this.City = City;
 		this.Email = Email;
 		this.HomePhoneNumber = HomePhoneNumber;
 		this.CellPhoneNumber = CellPhoneNumber;
 		this.Position = Position;
 		this.Salary = Salary;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
 	}
 
 	public String getEmployeeID() {

@@ -8,6 +8,7 @@ public class Customer {
 	String LastName;
 	String Address;
 	String PostalCode;
+	String City;
 	String Province;
 	String Email;
 	String HomePhoneNumber;
@@ -25,13 +26,14 @@ public class Customer {
 		this.CellPhoneNumber = "";
 	}
 	
-	public Customer(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province, String Email, String HomePhoneNumber, String CellPhoneNumber){
+	public Customer(String ID,	String FirstName, String LastName, String Address, String PostalCode, String Province, String City, String Email, String HomePhoneNumber, String CellPhoneNumber){
 		this.CustomerID = ID;
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.Address = Address;
 		this.PostalCode = PostalCode;
 		this.Province = Province;
+		this.City = City;
 		this.Email = Email;
 		this.HomePhoneNumber = HomePhoneNumber;
 		this.CellPhoneNumber = CellPhoneNumber;

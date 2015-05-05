@@ -21,6 +21,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import application.Value;
+import application.datamodel.Employee;
 import dbconnector.database.DBConnector;
 
 public abstract class BaseController<T>
@@ -76,13 +77,12 @@ public abstract class BaseController<T>
 
 	private String[][] data;
 	
-	String[][] searchData;
+	public String[][] searchData;
 	
 	
 	public void initialize()
 	{	
 		TableColumn<T, String>[] tableColumns = new TableColumn[leftTableColumns.length];
-		
 		for(int i = 0 ; i < tableColumns.length; i++)
 		{
 			TableColumn<T, String> column = new TableColumn<T, String>(leftTableColumns[i]);
@@ -93,8 +93,6 @@ public abstract class BaseController<T>
 		refreshData();//SETS THE ITEMS
 		searchData = data;
 		
-		
-		
 		leftTable.getColumns().addAll(tableColumns);
 		leftTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY );
 		
@@ -102,7 +100,6 @@ public abstract class BaseController<T>
 		editButton.setText(editButtonText);
 		deleteButton.setText(deleteButtonText);
 		printButton.setText(printButtonText);
-		//setupListeners();
 	}
 	
 	
@@ -245,9 +242,13 @@ public abstract class BaseController<T>
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		leftTable.getItems().removeAll(values);
+		leftTable.getItems().clear();
 		leftTable.setItems(arrayToObservableList(data));
 	}
 	
+	
+	public ObservableList<T> values = FXCollections.observableArrayList();
 	public abstract ObservableList<T> arrayToObservableList(String[][] data);
 	
 	

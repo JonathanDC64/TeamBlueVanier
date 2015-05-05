@@ -58,7 +58,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 		
 		columnNames = new String[]{
 				"Employee ID","First Name","Last Name", 
-				"Address","Postal Code","Province",
+				"Address","Postal Code","City","Province",
 				"Email","Home Phone Number","Cell Phone Number",
 				"Position","Salary"
 				};
@@ -66,7 +66,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 
 	private static String fSQL = 
 			"SELECT employee.EmployeeID, Person.FirstName, Person.LastName, Location.Address, "
-          + "Location.PostalCode, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber, employee.Position, employee.Wage " 
+          + "Location.PostalCode, Location.City, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber, employee.Position, employee.Wage " 
           + "FROM Employee, Person, Location "
           + "WHERE Person.PersonID = employee.PersonID and Location.LocationID = Person.LocationID";
 	
@@ -80,8 +80,8 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 	@Override
 	public ObservableList<Employee> arrayToObservableList(String[][] data) {
 		
-		ObservableList<Employee> values = FXCollections.observableArrayList();
 		
+		values.clear();
 		if(data == null) return null;
 		for(int i = 0 ; i < data.length ; i++)
 		{
@@ -97,7 +97,8 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 					data[i][7],
 					data[i][8],
 					data[i][9],
-					data[i][10]));
+					data[i][10],
+					data[i][11]));
 			
 		}
 		return values;

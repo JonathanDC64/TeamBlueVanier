@@ -59,14 +59,14 @@ public class CustomerController extends BaseController<Customer> implements Runn
 		
 		columnNames = new String[]{
 				"Customer ID","First Name","Last Name", 
-				"Address","Postal Code","Province",
+				"Address","Postal Code", "City","Province",
 				"Email","Home Phone Number","Cell Phone Number"
 				};
 	}
 
 	private static String fSQL = 
 			"SELECT Customer.CustomerID, Person.FirstName, Person.LastName, Location.Address, "
-          + "Location.PostalCode, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber " 
+          + "Location.PostalCode, Location.City, Location.Province, Person.Email, Person.HomePhoneNumber, Person.CellPhoneNumber " 
           + "FROM Customer, Person, Location "
           + "WHERE Person.PersonID = Customer.PersonID and Location.LocationID = Person.LocationID";
 	
@@ -77,9 +77,6 @@ public class CustomerController extends BaseController<Customer> implements Runn
 
 	@Override
 	public ObservableList<Customer> arrayToObservableList(String[][] data) {
-		
-		ObservableList<Customer> values = FXCollections.observableArrayList();
-		
 		if(data == null) return null;
 		for(int i = 0 ; i < data.length ; i++)
 		{
@@ -93,7 +90,8 @@ public class CustomerController extends BaseController<Customer> implements Runn
 					data[i][5],
 					data[i][6],
 					data[i][7],
-					data[i][8]));
+					data[i][8],
+					data[i][9]));
 			
 		}
 		return values;
