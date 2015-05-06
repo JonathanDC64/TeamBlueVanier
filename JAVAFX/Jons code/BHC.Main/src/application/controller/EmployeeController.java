@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +15,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import Printing.Print;
-import application.Main;
 import application.Value;
+import application.database.DatabaseUtils;
 import application.datamodel.Employee;
 import dbconnector.database.DBConnector;
 
@@ -112,22 +115,134 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 	@Override
 	public void add() throws IOException 
 	{
-		//refreshData();
-		AnchorPane root = (AnchorPane)FXMLLoader.load(Main.class.getResource("EmployeeEditDialog.fxml"));
-        Stage stage = new Stage();
+		AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getClassLoader().getResource("application/EmployeeEditDialog.fxml"));
+        final Stage stage = new Stage();
         stage.setScene(new Scene(root));  
         stage.setResizable(false);
         stage.show();
-	}
+        
+        final TextField firstNameField = (TextField) root.getScene().lookup("#firstNameField");
+        final TextField lastNameField = (TextField) root.getScene().lookup("#lastNameField");
+        final TextField addressField = (TextField) root.getScene().lookup("#addressField");
+        final TextField postalcodeField = (TextField) root.getScene().lookup("#postalcodeField");
+        final TextField cityField = (TextField) root.getScene().lookup("#cityField");
+    	final TextField provinceField = (TextField) root.getScene().lookup("#provinceField");
+    	final TextField emailField = (TextField) root.getScene().lookup("#emailField");
+    	final TextField homephonenumberField = (TextField) root.getScene().lookup("#homephonenumberField");
+    	final TextField cellphonenumberField = (TextField) root.getScene().lookup("#cellphonenumberField");
+    	final TextField positionField = (TextField) root.getScene().lookup("#positionField");
+    	final TextField salaryField = (TextField) root.getScene().lookup("#salaryField");
+    	
+    	Button ButtonOK = new Button ("Ok");
+    	Button ButtonCancel = new Button ("Cancel");
 
+    	HBox hbox = new HBox();
+    	hbox.getChildren().add(ButtonOK);
+    	hbox.getChildren().add(ButtonCancel);
+    	hbox.setLayoutX((root.getWidth()/2)-50);
+    	hbox.setLayoutY((root.getHeight())-25);
+    	
+    	root.getChildren().add(hbox);
+    	
+    	ButtonOK.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(	!cityField.getText().isEmpty()&&
+						!provinceField.getText().isEmpty()&&
+						!addressField.getText().isEmpty()&&
+						!postalcodeField.getText().isEmpty()&&
+						
+						!firstNameField.getText().isEmpty()&&
+						!lastNameField.getText().isEmpty()&&
+						!homephonenumberField.getText().isEmpty()&&
+						!cellphonenumberField.getText().isEmpty()&&
+						!emailField.getText().isEmpty()&&
+						
+						!positionField.getText().isEmpty()&&
+						!salaryField.getText().isEmpty()
+					){
+						//Location Table
+						String City = cityField.getText();
+						String Province = provinceField.getText();
+						String Address = addressField.getText();
+				    	String PostalCode = postalcodeField.getText();
+				    	
+				    	//Person Table
+				    	String FirstName = firstNameField.getText();
+				    	String LastName = lastNameField.getText();
+				    	String HomePhoneNumber = homephonenumberField.getText();
+				    	String CellPhoneNumber = cellphonenumberField.getText();    	
+				    	String Email = emailField.getText();
+				
+				    	//Employee Table
+				    	String Position = positionField.getText();
+				    	String Salary = salaryField.getText();
+				    	
+				    	String[][] NewLocationID = null;
+				    	String[][] NewPersonID = null;
+				    	String[][] NewEmployeeID = null;
+						try {
+							NewLocationID = database.select("select LocationID from Location order by LocationID desc");
+					    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
+					    	NewEmployeeID = database.select("select EmployeeID from Employee order by EmployeeID desc");
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+				    	
+				    	int nextLocationId = 0;
+				    	int nextPersonId = 0;
+				    	int nextEmployeeId = 0;
+				    	
+						if(NewLocationID != null){
+							nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
+						}
+						
+						if(NewPersonID != null){
+							nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
+						}
+						
+						if(NewEmployeeID != null){
+							nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0] + 1);
+						}
+				    	
+				    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
+				    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
+				    	DatabaseUtils.insertIntoEmployee(database,Integer.toString(nextEmployeeId), Integer.toString(nextPersonId),Position,Salary);
+				    	
+				        stage.close();
+				        refreshData();
+			}
+			else{
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Empty Fields");
+				alert.showAndWait();
+			}
+		}});
+    	
+    	ButtonCancel.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				stage.close();
+			}
+    	});
+	}
+	
+	Employee CurrentlySelectedEmployee;//Made it global
+	
 	@Override
 	public void displayMoreData() 
 	{
 		try
     	{
-	        Employee employee = (Employee) leftTable.getSelectionModel().getSelectedItem();
-	        String[] employeeData = database.select(fullSQL + " and employee.EmployeeID=" + employee.getEmployeeID())[0];
+	        //Employee employee = (Employee) leftTable.getSelectionModel().getSelectedItem();
+	        //String[] employeeData = database.select(fullSQL + " and employee.EmployeeID=" + employee.getEmployeeID())[0];
 	        
+			CurrentlySelectedEmployee = (Employee) leftTable.getSelectionModel().getSelectedItem();
+	        String[] employeeData = database.select(fullSQL + " and employee.EmployeeID=" + CurrentlySelectedEmployee.getEmployeeID())[0];
+			
 	        rightTable.getItems().clear();
 	        rightTable.setItems(getValues(employeeData));
     	}
@@ -139,10 +254,138 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 	}
 
 	@Override
-	public void edit() 
+	public void edit() throws IOException 
 	{
-		// TODO Auto-generated method stub
-		
+		AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getClassLoader().getResource("application/EmployeeEditDialog.fxml"));
+        final Stage stage = new Stage();
+        stage.setScene(new Scene(root));  
+        stage.setResizable(false);
+        stage.show();
+        
+        final TextField firstNameField = (TextField) root.getScene().lookup("#firstNameField");
+        final TextField lastNameField = (TextField) root.getScene().lookup("#lastNameField");
+        final TextField addressField = (TextField) root.getScene().lookup("#addressField");
+        final TextField postalcodeField = (TextField) root.getScene().lookup("#postalcodeField");
+        final TextField cityField = (TextField) root.getScene().lookup("#cityField");
+    	final TextField provinceField = (TextField) root.getScene().lookup("#provinceField");
+    	final TextField emailField = (TextField) root.getScene().lookup("#emailField");
+    	final TextField homephonenumberField = (TextField) root.getScene().lookup("#homephonenumberField");
+    	final TextField cellphonenumberField = (TextField) root.getScene().lookup("#cellphonenumberField");
+    	final TextField positionField = (TextField) root.getScene().lookup("#positionField");
+    	final TextField salaryField = (TextField) root.getScene().lookup("#salaryField");
+    	
+    	firstNameField.setText(CurrentlySelectedEmployee.getFirstName());
+    	lastNameField.setText(CurrentlySelectedEmployee.getLastName());
+    	addressField.setText(CurrentlySelectedEmployee.getAddress());
+    	postalcodeField.setText(CurrentlySelectedEmployee.getPostalCode());
+    	cityField.setText(CurrentlySelectedEmployee.getCity());
+    	provinceField.setText(CurrentlySelectedEmployee.getProvince());
+    	emailField.setText(CurrentlySelectedEmployee.getEmail());
+    	homephonenumberField.setText(CurrentlySelectedEmployee.getHomePhoneNumber());
+    	cellphonenumberField.setText(CurrentlySelectedEmployee.getCellPhoneNumber());
+    	positionField.setText(CurrentlySelectedEmployee.getPosition());
+    	salaryField.setText(CurrentlySelectedEmployee.getSalary());
+    	
+    	Button ButtonOK = new Button ("Ok");
+    	Button ButtonCancel = new Button ("Cancel");
+
+    	HBox hbox = new HBox();
+    	hbox.getChildren().add(ButtonOK);
+    	hbox.getChildren().add(ButtonCancel);
+    	hbox.setLayoutX((root.getWidth()/2)-50);
+    	hbox.setLayoutY((root.getHeight())-25);
+    	
+    	root.getChildren().add(hbox);
+    	
+    	ButtonOK.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(	!cityField.getText().isEmpty()&&
+						!provinceField.getText().isEmpty()&&
+						!addressField.getText().isEmpty()&&
+						!postalcodeField.getText().isEmpty()&&
+						
+						!firstNameField.getText().isEmpty()&&
+						!lastNameField.getText().isEmpty()&&
+						!homephonenumberField.getText().isEmpty()&&
+						!cellphonenumberField.getText().isEmpty()&&
+						!emailField.getText().isEmpty()&&
+						
+						!positionField.getText().isEmpty()&&
+						!salaryField.getText().isEmpty()
+					){
+						//Location Table
+						String City = cityField.getText();
+						String Province = provinceField.getText();
+						String Address = addressField.getText();
+				    	String PostalCode = postalcodeField.getText();
+				    	
+				    	//Person Table
+				    	String FirstName = firstNameField.getText();
+				    	String LastName = lastNameField.getText();
+				    	String HomePhoneNumber = homephonenumberField.getText();
+				    	String CellPhoneNumber = cellphonenumberField.getText();    	
+				    	String Email = emailField.getText();
+				
+				    	//Employee Table
+				    	String Position = positionField.getText();
+				    	String Salary = salaryField.getText();
+				    	
+				    	Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("NOT DONE YET");
+						alert.setHeaderText("NEED DATABASE UPDATE Query");
+						alert.showAndWait();
+				    	
+				    	/*String[][] NewLocationID = null;
+				    	String[][] NewPersonID = null;
+				    	String[][] NewEmployeeID = null;
+						try {
+							NewLocationID = database.select("select LocationID from Location order by LocationID desc");
+					    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
+					    	NewEmployeeID = database.select("select EmployeeID from Employee order by EmployeeID desc");
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+				    	
+				    	int nextLocationId = 0;
+				    	int nextPersonId = 0;
+				    	int nextEmployeeId = 0;
+				    	
+						if(NewLocationID != null){
+							nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
+						}
+						
+						if(NewPersonID != null){
+							nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
+						}
+						
+						if(NewEmployeeID != null){
+							nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0] + 1);
+						}
+				    	
+				    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
+				    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
+				    	DatabaseUtils.insertIntoEmployee(database,Integer.toString(nextEmployeeId), Integer.toString(nextPersonId),Position,Salary);
+				    	*/
+				        stage.close();
+				        //refreshData();
+			}
+			else{
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Empty Fields");
+				alert.showAndWait();
+			}
+		}});
+    	
+    	ButtonCancel.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				stage.close();
+			}
+    	});
 	}
 
 	@Override
@@ -189,7 +432,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}	
-	}	
+	}
 }
 
 

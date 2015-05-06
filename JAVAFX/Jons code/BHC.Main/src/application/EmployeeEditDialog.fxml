@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="364.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.EmployeeEditDialogController">
+<AnchorPane prefHeight="364.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutX="30.0" prefHeight="320.0" prefWidth="393.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -23,6 +23,7 @@
 			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 			<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints />
         </rowConstraints>
          <children>
             <Label text="First Name" GridPane.rowIndex="0" />
@@ -50,7 +51,6 @@
 			<TextField fx:id="salaryField" GridPane.columnIndex="1" GridPane.rowIndex="10" />
          </children>
       </GridPane>
-      <Button fx:id="ButtonOk" layoutX="275.0" layoutY="325.0" mnemonicParsing="false" onAction="#HandleOk" prefHeight="25.0" prefWidth="56.0" text="Ok" />
-      <Button fx:id="ButtonCancel"  layoutX="347.0" layoutY="325.0" mnemonicParsing="false" onAction="#HandleCancel" text="Cancel" />
+
    </children>
 </AnchorPane>
