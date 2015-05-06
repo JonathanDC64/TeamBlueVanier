@@ -61,7 +61,6 @@
                                  <Text layoutX="6.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 2.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                           <Button layoutX="603.0" layoutY="400.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Apply" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                      

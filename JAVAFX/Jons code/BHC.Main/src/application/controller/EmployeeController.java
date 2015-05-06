@@ -286,7 +286,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
     	positionField.setText(CurrentlySelectedEmployee.getPosition());
     	salaryField.setText(CurrentlySelectedEmployee.getSalary());
     	
-    	Button ButtonOK = new Button ("Ok");
+    	Button ButtonOK = new Button ("Save");
     	Button ButtonCancel = new Button ("Cancel");
 
     	HBox hbox = new HBox();
@@ -332,25 +332,17 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 				    	String Position = positionField.getText();
 				    	String Salary = salaryField.getText();
 				    	
-				    	Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("NOT DONE YET");
-						alert.setHeaderText("NEED DATABASE UPDATE Query");
-						alert.showAndWait();
-				    	
-				    	/*String[][] NewLocationID = null;
+				    	String[][] NewLocationID = null;
 				    	String[][] NewPersonID = null;
-				    	String[][] NewEmployeeID = null;
 						try {
 							NewLocationID = database.select("select LocationID from Location order by LocationID desc");
 					    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
-					    	NewEmployeeID = database.select("select EmployeeID from Employee order by EmployeeID desc");
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
 				    	
 				    	int nextLocationId = 0;
 				    	int nextPersonId = 0;
-				    	int nextEmployeeId = 0;
 				    	
 						if(NewLocationID != null){
 							nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
@@ -359,17 +351,21 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 						if(NewPersonID != null){
 							nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
 						}
+
+				    	String CurrentlySelectedEmployeeID = CurrentlySelectedEmployee.getEmployeeID();
 						
-						if(NewEmployeeID != null){
-							nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0] + 1);
+						try {
+							database.delete("Employee", "EmployeeID", CurrentlySelectedEmployee.getEmployeeID());
+						} catch (SQLException e) {
+							e.printStackTrace();
 						}
-				    	
+						
 				    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
 				    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
-				    	DatabaseUtils.insertIntoEmployee(database,Integer.toString(nextEmployeeId), Integer.toString(nextPersonId),Position,Salary);
-				    	*/
+				    	DatabaseUtils.insertIntoEmployee(database,CurrentlySelectedEmployeeID, Integer.toString(nextPersonId),Position,Salary);
+				    	
 				        stage.close();
-				        //refreshData();
+				        refreshData();
 			}
 			else{
 				Alert alert = new Alert(AlertType.ERROR);
@@ -412,6 +408,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 				e.printStackTrace();
 			}
 			refreshData();
+	        rightTable.getItems().clear();
 		} 
 		else if (result.get() == buttonTypeTwo) 
 		{

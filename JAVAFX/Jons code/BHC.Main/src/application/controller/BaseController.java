@@ -252,8 +252,6 @@ public abstract class BaseController<T>
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		leftTable.getItems().removeAll(values);
-		leftTable.getItems().clear();
 		leftTable.setItems(arrayToObservableList(data));
 	}
 	
