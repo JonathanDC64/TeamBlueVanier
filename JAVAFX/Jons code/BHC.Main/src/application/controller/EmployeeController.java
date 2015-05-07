@@ -148,7 +148,7 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 
 			@Override
 			public void handle(MouseEvent event) {
-				if(	!cityField.getText().isEmpty()&&
+				if(		!cityField.getText().isEmpty()&&
 						!provinceField.getText().isEmpty()&&
 						!addressField.getText().isEmpty()&&
 						!postalcodeField.getText().isEmpty()&&
@@ -162,61 +162,130 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 						!positionField.getText().isEmpty()&&
 						!salaryField.getText().isEmpty()
 					){
-						//Location Table
-						String City = cityField.getText();
-						String Province = provinceField.getText();
-						String Address = addressField.getText();
-				    	String PostalCode = postalcodeField.getText();
-				    	
-				    	//Person Table
-				    	String FirstName = firstNameField.getText();
-				    	String LastName = lastNameField.getText();
-				    	String HomePhoneNumber = homephonenumberField.getText();
-				    	String CellPhoneNumber = cellphonenumberField.getText();    	
-				    	String Email = emailField.getText();
-				
-				    	//Employee Table
-				    	String Position = positionField.getText();
-				    	String Salary = salaryField.getText();
-				    	
-				    	String[][] NewLocationID = null;
-				    	String[][] NewPersonID = null;
-				    	String[][] NewEmployeeID = null;
-						try {
-							NewLocationID = database.select("select LocationID from Location order by LocationID desc");
-					    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
-					    	NewEmployeeID = database.select("select EmployeeID from Employee order by EmployeeID desc");
-						} catch (SQLException e) {
-							e.printStackTrace();
+						if(cityField.getText().length() > 15){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("City is greater than 15 characters");
+							alert.showAndWait();
 						}
-				    	
-				    	int nextLocationId = 0;
-				    	int nextPersonId = 0;
-				    	int nextEmployeeId = 0;
-				    	
-						if(NewLocationID != null){
-							nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
+						if(provinceField.getText().length() > 15){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Province is greater than 15 characters");
+							alert.showAndWait();
 						}
-						
-						if(NewPersonID != null){
-							nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
+						if(addressField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Address is greater than 30 characters");
+							alert.showAndWait();
 						}
-						
-						if(NewEmployeeID != null){
-							nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0] + 1);
+						if(postalcodeField.getText().length() > 6){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Postal Code is greater than 6 characters");
+							alert.showAndWait();
 						}
-				    	
-				    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
-				    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
-				    	DatabaseUtils.insertIntoEmployee(database,Integer.toString(nextEmployeeId), Integer.toString(nextPersonId),Position,Salary);
-				    	
-				        stage.close();
-				        refreshData();
+						if(firstNameField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("First Name is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(lastNameField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Last Name is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(homephonenumberField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Home Phone Number is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(cellphonenumberField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Cell Phone Number is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(emailField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Email is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(positionField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Position is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(salaryField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Salary is greater than 10 characters");
+							alert.showAndWait();
+						}
+						else{
+							//Location Table
+							String City = cityField.getText();
+							String Province = provinceField.getText();
+							String Address = addressField.getText();
+					    	String PostalCode = postalcodeField.getText();
+					    	
+					    	//Person Table
+					    	String FirstName = firstNameField.getText();
+					    	String LastName = lastNameField.getText();
+					    	String HomePhoneNumber = homephonenumberField.getText();
+					    	String CellPhoneNumber = cellphonenumberField.getText();    	
+					    	String Email = emailField.getText();
+					
+					    	//Employee Table
+					    	String Position = positionField.getText();
+					    	String Salary = salaryField.getText();
+					    	
+					    	String[][] NewLocationID = null;
+					    	String[][] NewPersonID = null;
+					    	String[][] NewEmployeeID = null;
+							try {
+								NewLocationID = database.select("select LocationID from Location order by LocationID desc");
+						    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
+						    	NewEmployeeID = database.select("select EmployeeID from Employee order by EmployeeID desc");
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+					    	
+					    	int nextLocationId = 0;
+					    	int nextPersonId = 0;
+					    	int nextEmployeeId = 0;
+					    	
+							if(NewLocationID != null){
+								
+								nextLocationId = Integer.parseInt(NewLocationID[0][0]) + 1;
+							}
+							
+							if(NewPersonID != null){
+								nextPersonId = Integer.parseInt(NewPersonID[0][0]) + 1;
+							}
+							
+							if(NewEmployeeID != null){
+								nextEmployeeId = Integer.parseInt(NewEmployeeID[0][0]) + 1;
+							}
+					    	
+					    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
+					    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
+					    	DatabaseUtils.insertIntoEmployee(database,Integer.toString(nextEmployeeId), Integer.toString(nextPersonId),Position,Salary);
+					    	
+					        stage.close();
+					        refreshData();
+						}
 			}
 			else{
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
-				alert.setHeaderText("Empty Fields");
+				alert.setHeaderText("Empty Field(s)");
 				alert.showAndWait();
 			}
 		}});
@@ -315,62 +384,130 @@ public class EmployeeController extends BaseController<Employee> implements Runn
 						!positionField.getText().isEmpty()&&
 						!salaryField.getText().isEmpty()
 					){
-						//Location Table
-						String City = cityField.getText();
-						String Province = provinceField.getText();
-						String Address = addressField.getText();
-				    	String PostalCode = postalcodeField.getText();
-				    	
-				    	//Person Table
-				    	String FirstName = firstNameField.getText();
-				    	String LastName = lastNameField.getText();
-				    	String HomePhoneNumber = homephonenumberField.getText();
-				    	String CellPhoneNumber = cellphonenumberField.getText();    	
-				    	String Email = emailField.getText();
-				
-				    	//Employee Table
-				    	String Position = positionField.getText();
-				    	String Salary = salaryField.getText();
-				    	
-				    	String[][] NewLocationID = null;
-				    	String[][] NewPersonID = null;
-						try {
-							NewLocationID = database.select("select LocationID from Location order by LocationID desc");
-					    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
-						} catch (SQLException e) {
-							e.printStackTrace();
+						if(cityField.getText().length() > 15){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("City is greater than 15 characters");
+							alert.showAndWait();
 						}
-				    	
-				    	int nextLocationId = 0;
-				    	int nextPersonId = 0;
-				    	
-						if(NewLocationID != null){
-							nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
+						if(provinceField.getText().length() > 15){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Province is greater than 15 characters");
+							alert.showAndWait();
 						}
-						
-						if(NewPersonID != null){
-							nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
+						if(addressField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Address is greater than 30 characters");
+							alert.showAndWait();
 						}
-
-				    	String CurrentlySelectedEmployeeID = CurrentlySelectedEmployee.getEmployeeID();
-						
-						try {
-							database.delete("Employee", "EmployeeID", CurrentlySelectedEmployee.getEmployeeID());
-						} catch (SQLException e) {
-							e.printStackTrace();
+						if(postalcodeField.getText().length() > 6){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Postal Code is greater than 6 characters");
+							alert.showAndWait();
 						}
-						
-				    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
-				    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
-				    	DatabaseUtils.insertIntoEmployee(database,CurrentlySelectedEmployeeID, Integer.toString(nextPersonId),Position,Salary);
-				    	
-				        stage.close();
-				        refreshData();
+						if(firstNameField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("First Name is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(lastNameField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Last Name is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(homephonenumberField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Home Phone Number is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(cellphonenumberField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Cell Phone Number is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(emailField.getText().length() > 30){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Email is greater than 30 characters");
+							alert.showAndWait();
+						}
+						if(positionField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Position is greater than 10 characters");
+							alert.showAndWait();
+						}
+						if(salaryField.getText().length() > 10){
+							Alert alert = new Alert(AlertType.ERROR);
+							alert.setTitle("Error");
+							alert.setHeaderText("Salary is greater than 10 characters");
+							alert.showAndWait();
+						}
+						else{	
+							//Location Table
+							String City = cityField.getText();
+							String Province = provinceField.getText();
+							String Address = addressField.getText();
+					    	String PostalCode = postalcodeField.getText();
+					    	
+					    	//Person Table
+					    	String FirstName = firstNameField.getText();
+					    	String LastName = lastNameField.getText();
+					    	String HomePhoneNumber = homephonenumberField.getText();
+					    	String CellPhoneNumber = cellphonenumberField.getText();    	
+					    	String Email = emailField.getText();
+					
+					    	//Employee Table
+					    	String Position = positionField.getText();
+					    	String Salary = salaryField.getText();
+					    	
+					    	String[][] NewLocationID = null;
+					    	String[][] NewPersonID = null;
+							try {
+								NewLocationID = database.select("select LocationID from Location order by LocationID desc");
+						    	NewPersonID = database.select("select PersonID from Person order by PersonID desc");
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+					    	
+					    	int nextLocationId = 0;
+					    	int nextPersonId = 0;
+					    	
+							if(NewLocationID != null){
+								nextLocationId = Integer.parseInt(NewLocationID[0][0] + 1);
+							}
+							
+							if(NewPersonID != null){
+								nextPersonId = Integer.parseInt(NewPersonID[0][0] + 1);
+							}
+	
+					    	String CurrentlySelectedEmployeeID = CurrentlySelectedEmployee.getEmployeeID();
+							
+							try {
+								database.delete("Employee", "EmployeeID", CurrentlySelectedEmployee.getEmployeeID());
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+							
+					    	DatabaseUtils.insertIntoLocation(database, Integer.toString(nextLocationId),City,Province,Address,PostalCode);
+					    	DatabaseUtils.insertIntoPerson(database, Integer.toString(nextPersonId),FirstName,LastName,HomePhoneNumber,CellPhoneNumber,Email,Integer.toString(nextLocationId));
+					    	DatabaseUtils.insertIntoEmployee(database,CurrentlySelectedEmployeeID, Integer.toString(nextPersonId),Position,Salary);
+					    	
+					        stage.close();
+					        refreshData();
+						}
 			}
 			else{
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
-				alert.setHeaderText("Empty Fields");
+				alert.setHeaderText("Empty Field(s)");
 				alert.showAndWait();
 			}
 		}});
